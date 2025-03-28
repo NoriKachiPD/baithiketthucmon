@@ -31,7 +31,7 @@
 										<span class="flash-sale">${{ number_format($sanpham->unit_price, 2) }}</span>
 									@else
 										<span class="flash-del">${{ number_format($sanpham->unit_price, 2) }}</span>
-										<span class="flash-sale">${{ number_format($sanpham->promotion_price, 2) }}</span>
+										<span class="flash-sale">${{ number_format($sanpham->promotion_price, decimals: 2) }}</span>
 									@endif
 								</p>
 							</div>

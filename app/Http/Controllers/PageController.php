@@ -17,15 +17,21 @@ class PageController extends Controller
         $slides= Slide::all();  //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
 
         //lấy về sản phẩm mới hiển thị ra trang chủ
-        $new_products= Product::where('new',1)->paginate(8);   //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
+        $new_products = Product::whereIn('new', [1, 0])->get(); // lấy tất cả sản phẩm mới
+        // $new_products = Product::where('new', operator: 0)->get(); // lấy tất cả sản phẩm mới
+
 
         //lấy về sản phẩm đề nghị hiển thị ra trang chủ
-        $top_products= Product::where('top',1)->paginate(8);   //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
+        $top_products = Product::whereIn('top', [1, 0])->get();   //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
+        // $top_products = Product::where('top', 0)->get();   //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
 
         //lấy về sản phẩm khuyến mãi hiển thị ra trang chủ
-        $promotion_products= Product::where('promotion_price','<>',0)->paginate(4);
-       
-        return view('page.index',compact('slides','new_products','top_products','promotion_products'));
+        // $promotion_products= Product::where('promotion_price','<>',0)->paginate(4);
+    //    ,'promotion_products'
+        return view('page.index',compact('slides','new_products','top_products'));
+
+
+
     }
 
     public function getChiTiet($sanpham_id){
