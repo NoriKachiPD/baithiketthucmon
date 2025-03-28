@@ -1,7 +1,6 @@
 @extends('layout.master')
 
 @section('content')
-
 	<div class="inner-header">
 		<div class="container">
 			<div class="pull-left">
@@ -19,10 +18,10 @@
 	<div class="container">
 		<div id="content">
 			<div class="row">
-				<div class="col-sm-12">
+				<div class="col-sm-9">
 					<div class="row">
 						<div class="col-sm-4">
-							<img src="{{ asset('source/image/product/'.$sanpham->image) }}" alt="{{ $sanpham->name }}" class="img-responsive">
+							<img src="{{ asset('source/image/product/a2.jpg') }}" alt="{{ $sanpham->name }}" class="img-responsive">
 						</div>
 						<div class="col-sm-8">
 							<div class="single-item-body">
@@ -46,6 +45,14 @@
 							<div class="space20">&nbsp;</div>
 
 							<div class="single-item-options">
+								<select class="wc-select" name="size">
+									<option>Size</option>
+									<option value="XS">XS</option>
+									<option value="S">S</option>
+									<option value="M">M</option>
+									<option value="L">L</option>
+									<option value="XL">XL</option>
+								</select>
 								<select class="wc-select" name="size" id="quantity">
 									<option>Số lượng</option>
 									<option value="1">1</option>
@@ -71,59 +78,129 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="col-sm-3 aside">
+					<div class="widget">
+						<h3 class="widget-title">Best Sellers</h3>
+						<div class="widget-body">
+							<div class="beta-sales beta-lists">
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a3.jpg') }}" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a4.jpg') }}" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a5.jpg') }}" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a10.jpg') }}" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> <!-- best sellers widget -->
+					<div class="widget">
+						<h3 class="widget-title">New Products</h3>
+						<div class="widget-body">
+							<div class="beta-sales beta-lists">
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a2.jpg') }}" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a6.jpg') }}" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a7.jpg') }}" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+								<div class="media beta-sales-item">
+									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a8.jpg') }}" alt=""></a>
+									<div class="media-body">
+										Sample Woman Top
+										<span class="beta-sales-price">$34.55</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> <!-- new products widget -->
+				</div>
 			</div>
-		</div>
-	</div>
+		</div> <!-- #content -->
+	</div> <!-- .container -->
 @endsection
 
 @section('js')
-	 	<!--customjs-->
-		 <script type="text/javascript">
-    $(function() {
-        // this will get the full URL at the address bar
-        var url = window.location.href;
+	<!--customjs-->
+	<script type="text/javascript">
+		$(function() {
+			// this will get the full URL at the address bar
+			var url = window.location.href;
 
-        // passes on every "a" tag
-        $(".main-menu a").each(function() {
-            // checks if its the same on the address bar
-            if (url == (this.href)) {
-                $(this).closest("li").addClass("active");
-				$(this).parents('li').addClass('parent-active');
-            }
-        });
-    });
+			// passes on every "a" tag
+			$(".main-menu a").each(function() {
+				// checks if its the same on the address bar
+				if (url == (this.href)) {
+					$(this).closest("li").addClass("active");
+					$(this).parents('li').addClass('parent-active');
+				}
+			});
+		});
+	</script>
 
+	<script>
+		jQuery(document).ready(function($) {
+			'use strict';
 
-</script>
+			// color box
+			//color
+			jQuery('#style-selector').animate({
+				left: '-213px'
+			});
 
-<script>
-	 jQuery(document).ready(function($) {
-                'use strict';
-
-// color box
-
-//color
-      jQuery('#style-selector').animate({
-      left: '-213px'
-    });
-
-    jQuery('#style-selector a.close').click(function(e){
-      e.preventDefault();
-      var div = jQuery('#style-selector');
-      if (div.css('left') === '-213px') {
-        jQuery('#style-selector').animate({
-          left: '0'
-        });
-        jQuery(this).removeClass('icon-angle-left');
-        jQuery(this).addClass('icon-angle-right');
-      } else {
-        jQuery('#style-selector').animate({
-          left: '-213px'
-        });
-        jQuery(this).removeClass('icon-angle-right');
-        jQuery(this).addClass('icon-angle-left');
-      }
-    });
-				});
+			jQuery('#style-selector a.close').click(function(e){
+				e.preventDefault();
+				var div = jQuery('#style-selector');
+				if (div.css('left') === '-213px') {
+					jQuery('#style-selector').animate({
+						left: '0'
+					});
+					jQuery(this).removeClass('icon-angle-left');
+					jQuery(this).addClass('icon-angle-right');
+				} else {
+					jQuery('#style-selector').animate({
+						left: '-213px'
+					});
+					jQuery(this).removeClass('icon-angle-right');
+					jQuery(this).addClass('icon-angle-left');
+				}
+			});
+		});
 	</script>
 @endsection
