@@ -18,3 +18,7 @@ Route::get('/del-cart/{id}',[PageController::class,'delCartItem'])->name('banhan
 
 Route::get('/checkout',[PageController::class,'getCheckout'])->name('banhang.getdathang');
 Route::post('/checkout',[PageController::class,'postCheckout'])->name('banhang.postdathang');
+
+Route::get('/contacts', function () {
+    return view('page.contacts');
+})->name('contacts');

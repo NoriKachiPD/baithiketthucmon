@@ -95,14 +95,14 @@
                     <li><a href="http://localhost:8000/trangchu">Trang chủ</a></li>
                     <li><a href="#">Sản phẩm</a>
                         <ul class="sub-menu">
-                            <li><a href="product_type.html">Sản phẩm 1</a></li>
-                            <li><a href="product_type.html">Sản phẩm 2</a></li>
-                            <li><a href="product_type.html">Sản phẩm 4</a></li>
+                            <li><a href="product_type.html">Nothing Here</a></li>
+                            <li><a href="product_type.html">NOTHING HERE!!</a></li>
+                            <li><a href="product_type.html">GO AWAY!!!!!</a></li>
                         </ul>
                     </li>
                     <li><a href="about.html">Giới thiệu</a></li>
-                    <li><a href="contacts.html">Liên hệ</a></li>
-                </ul>
+                    <li><a href="{{ route('contacts') }}">Liên hệ</a></li>
+                    </ul>
                 <div class="clearfix"></div>
             </nav>
         </div> <!-- .container -->

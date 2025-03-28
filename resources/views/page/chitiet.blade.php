@@ -87,29 +87,29 @@
 								<div class="media beta-sales-item">
 									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a3.jpg') }}" alt=""></a>
 									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
+									Food
+										<span class="beta-sales-price">1đ</span>
 									</div>
 								</div>
 								<div class="media beta-sales-item">
 									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a4.jpg') }}" alt=""></a>
 									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
+									Food
+										<span class="beta-sales-price">1đ</span>
 									</div>
 								</div>
 								<div class="media beta-sales-item">
 									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a5.jpg') }}" alt=""></a>
 									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
+									Food
+										<span class="beta-sales-price">1đ</span>
 									</div>
 								</div>
 								<div class="media beta-sales-item">
 									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a10.jpg') }}" alt=""></a>
 									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
+									Food
+										<span class="beta-sales-price">1đ</span>
 									</div>
 								</div>
 							</div>
@@ -122,29 +122,29 @@
 								<div class="media beta-sales-item">
 									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a2.jpg') }}" alt=""></a>
 									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
+									Food
+										<span class="beta-sales-price">1đ</span>
 									</div>
 								</div>
 								<div class="media beta-sales-item">
 									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a6.jpg') }}" alt=""></a>
 									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
+									Food
+										<span class="beta-sales-price">1đ</span>
 									</div>
 								</div>
 								<div class="media beta-sales-item">
 									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a7.jpg') }}" alt=""></a>
 									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
+									Food
+										<span class="beta-sales-price">1đ</span>
 									</div>
 								</div>
 								<div class="media beta-sales-item">
-									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a8.jpg') }}" alt=""></a>
+									<a class="pull-left" href="product.html"><img src="{{ asset('source/image/product/a10.jpg') }}" alt=""></a>
 									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
+									Food
+										<span class="beta-sales-price">1đ</span>
 									</div>
 								</div>
 							</div>

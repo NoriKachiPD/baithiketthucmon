@@ -21,12 +21,10 @@
                             <input type="text" id="name" placeholder="Họ tên" name="name" required>
                         </div>
                         <div class="form-block">
-                            <label>Giới tính </label>
+                            <label>Giới tính</label>
                             <input id="gender" type="radio" class="input-radio" name="gender" value="nam" checked="checked" style="width: 10%"><span style="margin-right: 10%">Nam</span>
-                            <input id="gender" type="radio" class="input-radio" name="gender" value="nữ" style="width: 10%"><span>Nữ</span>
-                                       
+                            <input id="gender" type="radio" class="input-radio" name="gender" value="nữ" style="width: 10%"><span>Nữ</span>        
                         </div>
-
                         <div class="form-block">
                             <label for="email">Email*</label>
                             <input type="email" id="email" required placeholder="expample@gmail.com" name="email">
@@ -34,7 +32,7 @@
 
                         <div class="form-block">
                             <label for="adress">Địa chỉ*</label>
-                            <input type="text" id="adress" placeholder="Street Address" name="address" required>
+                            <input type="text" id="adress" placeholder="Address" name="address" required>
                         </div>
                        
 

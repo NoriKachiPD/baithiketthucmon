@@ -48,7 +48,7 @@
 	</div>
 
 	<div class="beta-products-list">
-                        <h4 style="margin-left: 20px;">New Products</h4>
+                        <h4 style="margin-left: 20px; margin-top: 20px;">New Products</h4>
                         <div class="beta-products-details">
                             <p style="margin-left: 20px;" class="pull-left">{{count($new_products)}} sản phẩm được tìm thấy</p>
                             <div class="clearfix"></div>

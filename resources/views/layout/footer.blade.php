@@ -29,8 +29,8 @@
 						<div>
 							<div class="contact-info">
 								<i class="fa fa-map-marker"></i>
-								<p>30 South Park Avenue San Francisco, CA 94108 Phone: +78 123 456 78</p>
-								<p>Nemo enim ipsam voluptatem quia voluptas sit asnatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione.</p>
+								<p>99 Tô Hiến Thành, Phước Mỹ, Sơn Trà, Đà Nẵng 550000.<br> Phone: 0935370171.</p>
+								<p>Vì không ai khinh thường, ghét bỏ hay chạy trốn khỏi thú vui vì đó là thú vui, mà vì nó gây ra đau khổ lớn cho những người lý trí.</p>
 							</div>
 						</div>
 					</div>
@@ -50,13 +50,16 @@
 	</div> <!-- #footer -->
 	<div class="copyright">
 		<div class="container">
-			<p class="pull-left">Privacy policy. (&copy;) 2014</p>
-			<p class="pull-right pay-options">
+		<p class="pull-left">Privacy policy. (&copy; <span id="year"></span> NoriKachi Tedomi)</p>
+		<p class="pull-right pay-options">
 				<a href="#"><img src="assets/dest/images/pay/master.jpg" alt="" /></a>
 				<a href="#"><img src="assets/dest/images/pay/pay.jpg" alt="" /></a>
 				<a href="#"><img src="assets/dest/images/pay/visa.jpg" alt="" /></a>
 				<a href="#"><img src="assets/dest/images/pay/paypal.jpg" alt="" /></a>
 			</p>
 			<div class="clearfix"></div>
+			<script>
+				document.getElementById("year").textContent = "2005 - " + new Date().getFullYear();
+			</script>
 		</div> <!-- .container -->
 	</div> <!-- .copyright -->
