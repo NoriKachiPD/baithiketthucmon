@@ -1,5 +1,9 @@
 @extends('layout.master')
 
+@section('title', 'Trang Chủ')
+
+@section('favicon', asset('images/1.jpg'))
+
 @section('content')
 
 <div class="rev-slider">
@@ -47,12 +51,13 @@
 				<!--slider-->
 	</div>
 
+
 	<div class="beta-products-list">
-                        <h4 style="margin-left: 20px; margin-top: 20px;">New Products</h4>
+                        <!-- <h4 style="margin-left: 20px; margin-top: 20px;">New Products</h4>
                         <div class="beta-products-details">
                             <p style="margin-left: 20px;" class="pull-left">{{count($new_products)}} sản phẩm được tìm thấy</p>
                             <div class="clearfix"></div>
-                        </div>
+                        </div> -->
 
         <div class="row">
         @php
@@ -68,7 +73,7 @@
                         <div class="ribbon-wrapper"><div class="ribbon sale">Sale</div></div>
                     @endif
                     <div class="single-item-header">
-                        <a href="product.html">
+                        <a href="{{ route('product') }}">
                             <img src="{{ asset('source/image/product/'.$new_product->image) }}" alt="" height="250px">
                         </a>
                     </div>
@@ -76,10 +81,10 @@
                         <p class="single-item-title">{{ $new_product->name }}</p>
                         <p class="single-item-price" style="font-size: 15px; font-weight: bold;">
                             @if($new_product->promotion_price == 0)
-                                <span class="flash-sale">{{ number_format($new_product->unit_price) }} đồng</span>
+                                <span class="flash-sale">{{ number_format($new_product->unit_price) }}đ</span>
                             @else
-                                <span class="flash-del">{{ number_format($new_product->unit_price) }} đồng</span>
-                                <span class="flash-sale">{{ number_format($new_product->promotion_price) }} đồng</span>
+                                <span class="flash-del">{{ number_format($new_product->unit_price) }}đ</span>
+                                <span class="flash-sale">{{ number_format($new_product->promotion_price) }}đ</span>
                             @endif
                         </p>
                     </div>

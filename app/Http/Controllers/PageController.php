@@ -10,28 +10,49 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Customer;
 use App\Models\Bill;
 use App\Models\BillDetail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class PageController extends Controller
 {
-    public function getIndex(){
-        $slides= Slide::all();  //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
+    // public function getIndex(){
+    //     $slides= Slide::all();  //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
 
-        //lấy về sản phẩm mới hiển thị ra trang chủ
-        $new_products = Product::whereIn('new', [1, 0])->get(); // lấy tất cả sản phẩm mới
-        // $new_products = Product::where('new', operator: 0)->get(); // lấy tất cả sản phẩm mới
-
-
-        //lấy về sản phẩm đề nghị hiển thị ra trang chủ
-        $top_products = Product::whereIn('top', [1, 0])->get();   //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
-        // $top_products = Product::where('top', 0)->get();   //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
-
-        //lấy về sản phẩm khuyến mãi hiển thị ra trang chủ
-        // $promotion_products= Product::where('promotion_price','<>',0)->paginate(4);
-    //    ,'promotion_products'
-        return view('page.index',compact('slides','new_products','top_products'));
+    //     //lấy về sản phẩm mới hiển thị ra trang chủ
+    //     $new_products = Product::whereIn('new', [1, 0])->get(); // lấy tất cả sản phẩm mới
+    //     // $new_products = Product::where('new', operator: 0)->get(); // lấy tất cả sản phẩm mới
 
 
+    //     //lấy về sản phẩm đề nghị hiển thị ra trang chủ
+    //     $top_products = Product::whereIn('top', [1, 0])->get();   //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
+    //     // $top_products = Product::where('top', 0)->get();   //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
 
+    //     //lấy về sản phẩm khuyến mãi hiển thị ra trang chủ
+    //     // $promotion_products= Product::where('promotion_price','<>',0)->paginate(4);
+    // //    ,'promotion_products'
+    //     return view('page.index',compact('slides','new_products','top_products'));
+
+
+
+    // }
+
+    public function getIndex()
+    {
+        $slides = Slide::all();
+        $new_products = Product::whereIn('new', [1, 0])->get();
+        $top_products = Product::whereIn('top', [1, 0])->get();
+
+        // Kiểm tra nếu user đã đăng nhập
+        if (Auth::check()) {
+            $user = Auth::user();
+            $masterLayout = ($user->level == 1) ? 'admin.master' : 'page.master';
+        } else {
+            $masterLayout = 'page.master'; // Mặc định là khách chưa đăng nhập
+        }
+
+        return view('page.index', compact('slides', 'new_products', 'top_products', 'masterLayout'));
     }
 
     public function getChiTiet($sanpham_id){
@@ -112,4 +133,89 @@ class PageController extends Controller
         return redirect()->back()->with('success','Đặt hàng thành công');
 
     }
+
+    public function getSignin(){
+       
+        return view('page.dangky');
+    }
+
+    public function postSignin(Request $req){
+        $validated = $req->validate(
+        ['email'=>'required|email|unique:users,email',
+            'password'=>'required|min:6|max:20',
+            'fullname'=>'required',
+            'repassword'=>'required|same:password'
+        ],
+        ['email.required'=>'Vui lòng nhập email',
+        'email.email'=>'Không đúng định dạng email',
+        'email.unique'=>'Email đã có người sử  dụng',
+        'password.required'=>'Vui lòng nhập mật khẩu',
+        'repassword.same'=>'Mật khẩu không giống nhau',
+        'password.min'=>'Mật khẩu ít nhất 6 ký tự'
+        ]);
+
+        $user=new User();
+        $user->full_name=$req->fullname;
+        $user->email=$req->email;
+        $user->password=Hash::make($req->password);
+        $user->phone=$req->phone;
+        $user->address=$req->address;
+        $user->level=3;  //level=1: admin; level=2:kỹ thuật; level=3: khách hàng
+        $user->save();
+        return redirect()->back()->with('success','Tạo tài khoản thành công');
+    }
+
+    public function getLogin(){
+        return view('page.login');
+    }
+
+public function postLogin(Request $req){
+        $req->validate([
+            'email'=>'required|email',
+            'password'=>'required|min:6|max:20'
+        ],
+        [
+            'email.required'=>'Vui lòng nhập email',
+            'email.email'=>'Không đúng định dạng email',
+            'password.required'=>'Vui lòng nhập mật khẩu',
+            'password.min'=>'Mật khẩu ít nhất 6 ký tự'
+        ]
+        );
+        $credentials=['email'=>$req->email,'password'=>$req->password];
+        if(Auth::attempt($credentials)){ 
+            // Kiểm tra nếu user có level = 1
+            if (Auth::user()->level == 1) {
+                return redirect()->route('banhang.index')->with(['flag' => 'alert', 'message' => 'Đăng nhập thành công']);
+            }
+             else {
+                return redirect('/trangchu')->with(['flag' => 'warning', 'message' => 'Đăng nhập thành công']);
+            }
+        } else {
+            return redirect()->back()->with(['flag' => 'danger', 'message' => 'Sai tài khoản hoặc mật khẩu']);
+        }
+        // if(Auth::attempt($credentials)){//The attempt method will return true if authentication was successful. Otherwise, false will be returned.
+        //     return redirect('/trangchu')->with(['flag'=>'alert','message'=>'Đăng nhập thành công']);
+        // }
+        // else{
+        //     return redirect()->back()->with(['flag'=>'danger','message'=>'Đăng nhập không thành công']);
+        // }
+    }
+    public function getLogout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('admin.getLogin');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/trangchu');  // Chuyển hướng về trang chủ sau khi logout
+    }
 }
+
+

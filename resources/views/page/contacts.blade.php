@@ -2,6 +2,8 @@
 
 @section('title', 'Contact')
 
+@section('favicon', asset('images/2.jpg'))
+
 @section('content')
 	<div class="inner-header">
 		<div class="container">

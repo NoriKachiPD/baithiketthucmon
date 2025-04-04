@@ -1,4 +1,9 @@
 @extends('layout.master')
+
+@section('title', 'Thanh Toán')
+
+@section('favicon', asset('images/2.jpg'))
+
 @section('content')
     <div class="container">
         <div id="content">

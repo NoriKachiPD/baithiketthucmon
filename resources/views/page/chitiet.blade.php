@@ -1,5 +1,9 @@
 @extends('layout.master')
 
+@section('title', 'Chi tiết sản phẩm')
+
+@section('favicon', asset('images/2.jpg'))
+
 @section('content')
 	<div class="inner-header">
 		<div class="container">
@@ -26,12 +30,15 @@
 						<div class="col-sm-8">
 							<div class="single-item-body">
 								<p class="single-item-title">{{ $sanpham->name }}</p>
+								<br>
 								<p class="single-item-price">
 									@if($sanpham->promotion_price == 0)
-										<span class="flash-sale">${{ number_format($sanpham->unit_price, 2) }}</span>
+										<span class="flash-sale">{{ number_format($sanpham->unit_price, 2) }}đ</span>
 									@else
-										<span class="flash-del">${{ number_format($sanpham->unit_price, 2) }}</span>
-										<span class="flash-sale">${{ number_format($sanpham->promotion_price, decimals: 2) }}</span>
+										<span class="flash-del">{{ number_format($sanpham->unit_price) }}đ</span>
+										<br>
+										<br>
+										<span class="flash-sale">{{ number_format($sanpham->promotion_price) }}đ</span>
 									@endif
 								</p>
 							</div>

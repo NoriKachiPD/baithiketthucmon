@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel Shop</title>
+    <title>@yield(section: 'title')</title>
+    <link rel="icon" href="@yield('favicon')" type="image/jpg">
+
     
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Dosis:300,400' rel='stylesheet' type='text/css'>

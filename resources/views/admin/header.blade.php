@@ -19,17 +19,18 @@
                     <!-- <li><a href="#"><i class="fa fa-user"></i>Tài khoản</a></li>
                     <li><a href="{{ route('getsignin') }}">Đăng kí</a></li>
                     <li><a href="{{ route('getlogin') }}">Đăng nhập</a></li> -->
-                @if(Auth::check() && Auth::user()->level == 1)
+                <!-- @if(Auth::check() && Auth::user()->level == 1)
                     <li><a id="Admin" style="background:fixed; border: none;" href="{{ route('admin.category.list') }}" class="btn btn-primary"><i class="fa fa-user"></i>Admin Page</a></li>
                 @endif
                 <style>
                     #Admin{
-                        color: gray;
+                        color: #3392d0;
                     }
                     #Admin:hover{
-                        color: black;
+                        text-decoration: underline; /* Khi hover vào sẽ có gạch chân */
+                        color: #23527c;
                     }
-                </style>
+                </style> -->
                 </ul>
             </div>
             <div class="clearfix"></div>
