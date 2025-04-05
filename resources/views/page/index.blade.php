@@ -279,7 +279,6 @@
 .single-item-header img:hover {
     transform: scale(1.05);   /* Tạo hiệu ứng phóng to khi hover */
 }
-
 </style>
 
 <div class="beta-products-list">
@@ -292,8 +291,9 @@
                 </select>
             </form>
         </div>
-
         <div class="row">
+        @if(isset($keyword))
+        @endif
             @php
                 $new_products = $new_products->shuffle();
                 $stt = 0;

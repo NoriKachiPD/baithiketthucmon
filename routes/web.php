@@ -9,6 +9,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Route::get('/', [PageController::class, 'getIndex'])->name('home');
 
 Route::get('/trangchu',[PageController::class,'getIndex'])->name('banhang.index');
