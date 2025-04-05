@@ -38,12 +38,41 @@ class PageController extends Controller
 
     // }
 
-    public function getIndex()
-    {
-        $slides = Slide::all();
-        $new_products = Product::whereIn('new', [1, 0])->get();
-        $top_products = Product::whereIn('top', [1, 0])->get();
+    // public function getIndex()
+    // {
+    //     $slides = Slide::all();
+    //     $new_products = Product::whereIn('new', [1, 0])->get();
+    //     $top_products = Product::whereIn('top', [1, 0])->get();
 
+    //     // Kiểm tra nếu user đã đăng nhập
+    //     if (Auth::check()) {
+    //         $user = Auth::user();
+    //         $masterLayout = ($user->level == 1) ? 'admin.master' : 'page.master';
+    //     } else {
+    //         $masterLayout = 'page.master'; // Mặc định là khách chưa đăng nhập
+    //     }
+
+    //     return view('page.index', compact('slides', 'new_products', 'top_products', 'masterLayout'));
+    // }
+
+    public function getIndex(Request $request)
+    {
+        // Kiểm tra bộ lọc từ request (mặc định là 'all')
+        $filter = $request->input('filter', 'all');
+        
+        $slides = Slide::all();
+        
+        // Lọc sản phẩm theo bộ lọc
+        if ($filter == 'discount') {
+            $new_products = Product::where('promotion_price', '>', 0)->get();
+        } elseif ($filter == 'no_discount') {
+            $new_products = Product::where('promotion_price', 0)->get();
+        } else {
+            $new_products = Product::whereIn('new', [1, 0])->get();
+        }
+    
+        $top_products = Product::whereIn('top', [1, 0])->get();
+    
         // Kiểm tra nếu user đã đăng nhập
         if (Auth::check()) {
             $user = Auth::user();
@@ -51,9 +80,12 @@ class PageController extends Controller
         } else {
             $masterLayout = 'page.master'; // Mặc định là khách chưa đăng nhập
         }
+    
+        return view('page.index', compact('slides', 'new_products', 'top_products', 'masterLayout', 'filter'));
+    }    
+    
+    
 
-        return view('page.index', compact('slides', 'new_products', 'top_products', 'masterLayout'));
-    }
 
     public function getChiTiet($sanpham_id){
         $sanpham=Product::find($sanpham_id);
