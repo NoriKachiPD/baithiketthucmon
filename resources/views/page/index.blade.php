@@ -215,6 +215,7 @@
     align-items: center; /* Căn giữa icon và text */
     justify-content: center;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    height: 37px;
 }
 
 .add-to-cart:hover {

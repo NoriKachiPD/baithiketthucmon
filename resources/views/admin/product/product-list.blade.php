@@ -27,17 +27,18 @@
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr align="center">
-                                <th>Image</th>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Type</th>
-                                <th>Unit Price</th>
-                                <th>Promotion Price</th>
-                                <th>Unit</th>
-                                <th>New</th>
-                                <th>Top</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th style="text-align: center;">Image</th>
+                                <th style="text-align: center;">ID</th>
+                                <th style="text-align: center;">Name</th>
+                                <th style="text-align: center;">Type</th>
+                                <th style="text-align: center;">Unit Price</th>
+                                <th style="text-align: center;">Promotion Price</th>
+                                <th style="text-align: center;">Unit</th>
+                                <th style="text-align: center;">New</th>
+                                <th style="text-align: center;">Top</th>
+                                <th style="text-align: center;">Description</th> <!-- ✅ Thêm dòng này -->
+                                <th style="text-align: center;">Edit</th>
+                                <th style="text-align: center;">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,6 +59,7 @@
                                     <td>{{ $product->unit }}</td>
                                     <td>{{ $product->new ? 'Yes' : 'No' }}</td>
                                     <td>{{ $product->top ? 'Yes' : 'No' }}</td>
+                                    <td>{!! Str::limit($product->description, 50) !!}</td> <!-- ✅ Thêm dòng này -->
                                     <td class="center">
                                         <a href="{{ route('admin.product.edit', $product->id) }}">
                                             <i class="fa fa-pencil fa-fw"></i> Edit

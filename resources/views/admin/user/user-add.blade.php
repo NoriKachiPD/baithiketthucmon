@@ -19,7 +19,7 @@
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
-                <form action="{{ route('admin.user.store') }}" method="POST">
+                <form action="{{ route('admin.user.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label>Họ tên</label>
@@ -44,6 +44,11 @@
                     <div class="form-group">
                         <label>Mật khẩu</label>
                         <input class="form-control" name="password" type="password" placeholder="Nhập mật khẩu" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ảnh đại diện</label>
+                        <input class="form-control" type="file" name="image" accept="image/*" />
                     </div>
 
                     <button type="submit" class="btn btn-success">Thêm khách hàng</button>

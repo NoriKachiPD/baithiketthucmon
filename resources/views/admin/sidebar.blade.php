@@ -15,7 +15,7 @@
             {{-- Dashboard --}}
             <li>
                 <a href="{{ route('admin.dashboard') }}">
-                    <i class="fa fa-dashboard fa-fw" style="color: orange;"></i> Dashboard
+                    <i class="fa fa-dashboard fa-fw" style="color: orange;"></i> <m style="margin-left: 70px; font-weight: 900;">Dashboard
                 </a>
             </li>
 

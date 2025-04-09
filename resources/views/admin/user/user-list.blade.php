@@ -27,6 +27,7 @@
                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                     <thead>
                         <tr align="center">
+                            <th>Hình ảnh</th> <!-- Thêm cột hình ảnh -->
                             <th>ID</th>
                             <th>Họ tên</th>
                             <th>Email</th>
@@ -39,6 +40,13 @@
                     <tbody>
                         @foreach($users as $u)
                             <tr class="odd gradeX" align="center">
+                                <td>
+                                    @if($u->Image)
+                                        <img src="{{ asset('images/'.$u->Image) }}" style="width: 50px; height: 50px; border-radius: 50%;">
+                                    @else
+                                        <span>No image</span>
+                                    @endif
+                                </td>
                                 <td>{{ $u->id }}</td>
                                 <td>{{ $u->full_name }}</td>
                                 <td>{{ $u->email }}</td>
