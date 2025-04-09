@@ -10,8 +10,15 @@
             <div class="pull-right auto-width-right">
                 <ul class="top-details menu-beta l-inline">
                 @if(Auth::check())
-                    <li><a href="#"><i class="fa fa-user"></i>Chào bạn {{ Auth::user()->full_name }}</a></li>
-                    <li><a href="{{ route('getlogout') }} "><i class="fa fa-user"></i>Đăng xuất</a></li>
+                <li>
+                    <a href="{{ route('profile') }}">
+                        <img src="{{ asset('images/' . (Auth::user()->Image ? Auth::user()->Image : 'user.png')) }}" 
+                            alt="Avatar" 
+                            style="width: auto; height: 49px; border-radius:50%; object-fit:cover;">
+                    </a>
+                </li>
+                    <li><a href="{{ route('profile') }}"><i class="fa fa-user"></i>Chào bạn {{ Auth::user()->full_name }}</a></li>
+                    <li><a href="{{ route('getlogout') }} "><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
                 @else
                     <li><a href="{{ route('getsignin') }}">Đăng kí</a></li>
                     <li><a href="{{ route('getlogin') }}">Đăng nhập</a></li>
@@ -19,8 +26,14 @@
                     <!-- <li><a href="#"><i class="fa fa-user"></i>Tài khoản</a></li>
                     <li><a href="{{ route('getsignin') }}">Đăng kí</a></li>
                     <li><a href="{{ route('getlogin') }}">Đăng nhập</a></li> -->
+                <!-- @if(Auth::check() && Auth::user()->level == 1)
+                    <li><a id="Admin" style="background:fixed; border: none;" href="{{ route('admin.category.list') }}" class="btn btn-primary"><i class="fa fa-user"></i>Category Page</a></li>
+                @endif
                 @if(Auth::check() && Auth::user()->level == 1)
-                    <li><a id="Admin" style="background:fixed; border: none;" href="{{ route('admin.category.list') }}" class="btn btn-primary"><i class="fa fa-user"></i>Admin Page</a></li>
+                    <li><a id="Admin" style="background:fixed; border: none;" href="{{ route('admin.user.list') }}" class="btn btn-primary"><i class="fa fa-user"></i>User Page</a></li>
+                @endif -->
+                @if(Auth::check() && Auth::user()->level == 1)
+                    <li><a id="Admin" style="background:fixed; border: none;" href="{{ route('admin.dashboard') }}" class="btn btn-primary"><i class="fa fa-file"></i>Admin Page</a></li>
                 @endif
                 <style>
                     #Admin{

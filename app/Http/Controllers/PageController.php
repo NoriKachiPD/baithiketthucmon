@@ -254,6 +254,56 @@ public function postLogin(Request $req){
 
         return redirect('/trangchu');  // Chuyển hướng về trang chủ sau khi logout
     }
+
+
+    // Hiển thị trang chỉnh sửa thông tin cá nhân
+    public function getProfile()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('getLogin')->with('warning', 'Vui lòng đăng nhập');
+        }
+
+        $user = Auth::user();
+        return view('page.profile', compact('user'));
+    }
+
+    // Xử lý cập nhật thông tin cá nhân
+    public function postProfile(Request $request)
+    {
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . Auth::id(),
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->full_name = $request->input('full_name');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->address = $request->input('address');
+    
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = $file->getClientOriginalName();
+            $file->move(public_path('images'), $filename);
+    
+            // Xoá ảnh cũ nếu có
+            if ($user->image && file_exists(public_path('images/' . $user->image))) {
+                unlink(public_path('images/' . $user->image));
+            }
+    
+            $user->image = $filename;
+        }
+    
+        $user->save();
+    
+        return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
+    }
+    
+
 }
 
 

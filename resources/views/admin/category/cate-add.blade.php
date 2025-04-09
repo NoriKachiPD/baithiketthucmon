@@ -2,7 +2,7 @@
 
 @section('title', 'Add Category')
 
-@section('favicon', asset(path: 'images/2.jpg'))
+@section('favicon', asset('images/Dish.jpg'))
 
 @section('content')
 <div id="page-wrapper">
@@ -19,21 +19,27 @@
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <form action="{{ route('admin.category.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group">
-                        <label>ID</label>
-                        <input class="form-control" name="id" placeholder="Please Enter Category ID" required />
-                    </div>
 
                     <div class="form-group">
                         <label>Category Name</label>
-                        <input class="form-control" name="name" placeholder="Please Enter Category Name" required />
+                        <input class="form-control" name="name" placeholder="Enter category name" value="{{ old('name') }}" required />
                     </div>
 
                     <div class="form-group">
-                        <label>Price</label>
-                        <input class="form-control" name="price" placeholder="Please Enter Category Price" required type="number" step="0.01" />
+                        <label>Description</label>
+                        <textarea class="form-control" name="description" rows="3" placeholder="Enter description">{{ old('description') }}</textarea>
                     </div>
 
                     <div class="form-group">
@@ -41,19 +47,8 @@
                         <input class="form-control" type="file" name="image" />
                     </div>
 
-                    <div class="form-group">
-                        <label>Category Status</label>
-                        <label class="radio-inline">
-                            <input name="status" value="1" checked="" type="radio">Visible
-                        </label>
-                        <label class="radio-inline">
-                            <input name="status" value="2" type="radio">Invisible
-                        </label>
-                    </div>
-
-                    <button type="submit" class="btn btn-default">Add Category</button>
-                    <br>
-                    <a href="{{ route('admin.category.list') }}" class="btn btn-secondary" style="margin-top: 20px;">Back to List</a>
+                    <button type="submit" class="btn btn-primary">Add Category</button>
+                    <a href="{{ route('admin.category.list') }}" class="btn btn-secondary" style="margin-left: 10px;">Back to List</a>
                 </form>
             </div>
         </div>

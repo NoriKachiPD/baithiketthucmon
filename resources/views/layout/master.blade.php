@@ -62,6 +62,27 @@
     });
     </script>
 
+    {{-- JS --}}
+<script>
+    $(document).ready(function () {
+        $('.dropdown-toggle').on('click', function () {
+            const submenu = $(this).next('.nav-second-level');
+            const arrow = $(this).find('.arrow-icon');
+            const isVisible = submenu.is(':visible');
+
+            // Ẩn tất cả submenu khác & reset tất cả icon
+            $('.nav-second-level').not(submenu).slideUp();
+            $('.arrow-icon').not(arrow).removeClass('rotate-down');
+
+            // Toggle submenu hiện tại
+            submenu.slideToggle();
+
+            // Xoay icon tương ứng
+            arrow.toggleClass('rotate-down');
+        });
+    });
+</script>
+
     @yield('js')
 </body>
 </html>

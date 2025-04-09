@@ -9,6 +9,8 @@
 
     <title>@yield(section: 'title')</title>
     <link rel="icon" href="@yield('favicon')" type="image/jpg">
+    <link href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- <link href='http://fonts.googleapis.com/css?family=Dosis:300,400' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
@@ -89,6 +91,48 @@ Use for reference -->
     </script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('source/assets/dest/js/jquery.js') }}"></script>
+
+    <!-- jQuery -->
+    <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+    <!-- (Không cần Metis Menu nếu bạn không dùng nữa) -->
+    {{-- <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script> --}}
+
+    <!-- Custom Scripts -->
+    <!-- <script>
+        $(document).ready(function () {
+            // Xử lý xổ/thu submenu
+            $('.dropdown-toggle').on('click', function () {
+                var submenu = $(this).next('.nav-second-level');
+                $('.nav-second-level').not(submenu).slideUp(); // ẩn các menu khác
+                submenu.slideToggle(); // xổ hoặc thu cái được bấm
+            });
+        });
+    </script> -->
+
+    {{-- JS --}}
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-toggle').on('click', function () {
+                const submenu = $(this).next('.nav-second-level');
+                const arrow = $(this).find('.arrow-icon');
+                const isVisible = submenu.is(':visible');
+
+                // Ẩn tất cả submenu khác & reset tất cả icon
+                $('.nav-second-level').not(submenu).slideUp();
+                $('.arrow-icon').not(arrow).removeClass('rotate-down');
+
+                // Toggle submenu hiện tại
+                submenu.slideToggle();
+
+                // Xoay icon tương ứng
+                arrow.toggleClass('rotate-down');
+            });
+        });
+    </script>
     @yield('scripts')
 </body>
 </html>

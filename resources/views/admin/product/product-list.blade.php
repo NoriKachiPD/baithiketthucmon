@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', 'Danh mục')
+@section('title', 'Sản phẩm')
 
 @section('favicon', asset('images/Dish.jpg'))
 
@@ -11,13 +11,13 @@
 
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Category
+                        <h1 class="page-header">Product
                             <small>List</small>
                         </h1>
                     </div>
 
                     <div class="col-lg-12" style="margin-bottom: 20px;">
-                        <a href="{{ route('admin.category.add') }}" class="btn btn-primary">Add New Category</a>
+                        <a href="{{ route('admin.product.add') }}" class="btn btn-primary">Add New Product</a>
                     </div>
 
                     @if(session('success'))
@@ -30,31 +30,41 @@
                                 <th>Image</th>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Unit Price</th>
+                                <th>Promotion Price</th>
+                                <th>Unit</th>
+                                <th>New</th>
+                                <th>Top</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($cates as $cate)
+                            @foreach($products as $product)
                                 <tr class="odd gradeX" align="center">
                                     <td>
-                                        @if($cate->image)
-                                            <img src="{{ asset('source/image/product/'.$cate->image) }}" style="width: 100px; height: auto;">
+                                        @if($product->image)
+                                            <img src="{{ asset('source/image/product/'.$product->image) }}" style="width: 100px; height: auto;">
                                         @else
                                             <span>No image</span>
                                         @endif
                                     </td>
-                                    <td>{{ $cate->id }}</td>
-                                    <td>{{ $cate->name }}</td>
-                                    <td>{{ $cate->description }}</td>
+                                    <td>{{ $product->id }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $product->id_type }}</td>
+                                    <td>{{ number_format($product->unit_price, 0, ',', '.') }} đ</td>
+                                    <td>{{ number_format($product->promotion_price, 0, ',', '.') }} đ</td>
+                                    <td>{{ $product->unit }}</td>
+                                    <td>{{ $product->new ? 'Yes' : 'No' }}</td>
+                                    <td>{{ $product->top ? 'Yes' : 'No' }}</td>
                                     <td class="center">
-                                        <a href="{{ route('admin.category.edit', $cate->id) }}">
+                                        <a href="{{ route('admin.product.edit', $product->id) }}">
                                             <i class="fa fa-pencil fa-fw"></i> Edit
                                         </a>
                                     </td>
                                     <td class="center">
-                                        <a href="{{ route('admin.category.delete', $cate->id) }}" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                                        <a href="{{ route('admin.product.delete', $product->id) }}" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
                                             <i class="fa fa-trash-o fa-fw"></i> Delete
                                         </a>
                                     </td>
