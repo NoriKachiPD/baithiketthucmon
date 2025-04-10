@@ -5,6 +5,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\AdminLoginMiddleware;
 
+use App\Http\Controllers\ContactController;
+
 use App\Http\Controllers\Admin\UserController;
 // use App\Http\Middleware\AdminOnlyMiddleware;
 use App\Http\Controllers\Admin\ProductController;
@@ -13,7 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/contact-submit', [ContactController::class, 'submit'])->name('contact.submit');
 
+// routes/web.php
+Route::get('/tang-so-luong/{id}', [PageController::class, 'tangSoLuong'])->name('banhang.tangsoluong');
+Route::get('/giam-so-luong/{id}', [PageController::class, 'giamSoLuong'])->name('banhang.giamsoluong');
 
 Route::get('/', [PageController::class, 'getIndex'])->name('home');
 
@@ -162,6 +168,13 @@ Route::prefix('admin')->middleware(AdminLoginMiddleware::class)->group(function 
         Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
         Route::put('/edit/{id}', [ProductController::class, 'update'])->name('admin.product.update');
         Route::get('/delete/{id}', [ProductController::class, 'destroy'])->name('admin.product.delete');
+    });
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('contacts', [ContactController::class, 'index'])->name('contact.list');
+        Route::get('contacts/{id}/reply', [ContactController::class, 'replyForm'])->name('contact.replyForm');
+        Route::post('contacts/{id}/reply', [ContactController::class, 'sendReply'])->name('contact.sendReply');
+        Route::delete('contacts/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
     });
 
 });

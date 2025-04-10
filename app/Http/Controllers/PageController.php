@@ -117,6 +117,30 @@ class PageController extends Controller
         return redirect()->back();
     }
 
+    public function tangSoLuong(Request $request, $id) {
+        $product = Product::find($id);
+        $oldCart = Session('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->add($product, $id);
+        $request->session()->put('cart', $cart);
+        return redirect()->back();
+    }
+    
+    public function giamSoLuong(Request $request, $id) {
+        $oldCart = Session('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->reduceByOne($id);
+    
+        if (count($cart->items) > 0) {
+            $request->session()->put('cart', $cart);
+        } else {
+            $request->session()->forget('cart');
+        }
+    
+        return redirect()->back();
+    }
+    
+
     public function getCheckout()
 {
     if (!Session::has('cart')) {
@@ -305,5 +329,3 @@ public function postLogin(Request $req){
     
 
 }
-
-

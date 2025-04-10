@@ -47,18 +47,18 @@
     <div class="header-body">
         <div class="container beta-relative">
             <div class="pull-left">
-                <a href="{{ route('banhang.index') }}" id="logo"><img src="{{ asset('source/assets/dest/images/logo-cake.png')}}" width="200px" alt=""></a>
+                <a href="{{ route('banhang.index') }}" id="logo"><img src="{{ asset('images/3.png')}}" width="90px" alt=""></a>
             </div>
             <div class="pull-right beta-components space-left ov">
                 <div class="space10">&nbsp;</div>
                 <div class="beta-comp">
                 <form role="search" method="get" id="searchform" action="{{ route('home') }}">
-                    <input type="text" value="{{ request('keyword') }}" name="keyword" id="s" placeholder="Nhập từ khóa..." />
-                    <button class="fa fa-search" type="submit" id="searchsubmit"></button>
+                    <input style="margin-top: 16px;" type="text" value="{{ request('keyword') }}" name="keyword" id="s" placeholder="Nhập từ khóa..." />
+                    <button class="fa fa-search" type="submit" id="searchsubmit" style="margin-top: 16px;"></button>
                 </form>
                 </div>
-
-                <div class="beta-comp">
+ 
+<!--                <div class="beta-comp">
                     <div class="cart">
                         <div class="beta-select">
                             <i class="fa fa-shopping-cart"></i> Giỏ hàng 
@@ -78,9 +78,18 @@
                                         <div class="media-body">
                                             <div class="cart-item-title">{{ $product['item']['name'] }}</div>
                                             <div class="cart-item-price">
-                                                {{ $product['qty'] }} X
+                                                {{-- Hiển thị số lượng --}}
+                                                <b><span>{{ $product['qty'] }}</span>✕</b>
+                                                {{-- Nút tăng --}}
+                                                <a href="{{ route('banhang.tangsoluong', $product['item']['id']) }}" style="font-size: 18px; background: linear-gradient(45deg, #004d00, #006400, #008000, #00b300, #00e600, #1aff66, #66ff99, #99ffcc, #ccffe6, #e6fff2); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent;">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </a>
+                                                {{-- Nút giảm --}}
+                                                <a href="{{ route('banhang.giamsoluong', $product['item']['id']) }}" style="font-size: 18px;background: linear-gradient(45deg, #8B0000, #B22222, #DC143C, #FF4500, #FF6347, #FF7F7F, #FFA07A, #FFC1C1, #FFD5D5, #FFE5E5); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent;">
+                                                    <i class="fa fa-chevron-down"></i>
+                                                </a>
                                                 @if($product['item']['promotion_price'] == 0)
-                                                    <h6>{{ number_format($product['item']['unit_price']) }}đ</h1>
+                                                    <h6>{{ number_format($product['item']['unit_price']) }}đ</h6>
                                                 @else
                                                     <h6>{{ number_format($product['item']['promotion_price']) }}đ</h6>
                                                 @endif
@@ -90,7 +99,6 @@
                                     <a class="" href="{{ route('banhang.xoagiohang',$product['item']['id']) }}">
                                         <i class="fa fa-times"></i>
                                     </a>
-                                    <!-- cart-item-delete -->
                                 </div>
                                 @endforeach
                             </div>
@@ -98,7 +106,11 @@
                             <div class="cart-summary">
                                 <div class="cart-total">
                                     <span>Tổng tiền:</span>
-                                    <h1><span class="total-price">{{ number_format($cart->totalPrice) }}đ</span></h1>
+                                    @if(Session::has('cart'))
+                                        <span class="total-price">{{ number_format(Session::get('cart')->totalPrice) }}đ</span>
+                                    @else
+                                        <span class="total-price">0đ</span>
+                                    @endif                                  
                                 </div>
                                 <a href="{{ route('banhang.getdathang') }}" class="btn-checkout">
                                     Đặt hàng <i class="fa fa-chevron-right"></i>
@@ -107,7 +119,7 @@
                         </div>
                         @endif
                     </div>
-                </div>
+                </div> -->
             </div> <!-- .beta-components -->
             <div class="clearfix"></div>
         </div> <!-- .container -->

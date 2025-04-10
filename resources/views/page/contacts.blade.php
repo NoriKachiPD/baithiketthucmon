@@ -2,7 +2,7 @@
 
 @section('title', 'Contact')
 
-@section('favicon', asset('images/2.jpg'))
+@section('favicon', asset('images/Contact.jpg'))
 
 @section('content')
 	<div class="inner-header">
@@ -12,7 +12,7 @@
 			</div>
 			<div class="pull-right">
 				<div class="beta-breadcrumb font-large">
-					<a href="index.html">Home</a> / <span>Contacts</span>
+					<a href="{{ route('banhang.index') }}">Home</a> / <span>Contacts</span>
 				</div>
 			</div>
 			<div class="clearfix"></div>
@@ -32,23 +32,26 @@
 					<div class="space20">&nbsp;</div>
 					<p>Để đi đến chi tiết nhỏ nhất, không ai nên thực hiện bất kỳ loại công việc nào trừ khi anh ta thu được lợi ích nào đó từ nó. Đừng tức giận với nỗi đau trong sự khiển trách trong niềm vui mà anh ấy muốn được thoát khỏi nỗi đau với hy vọng rằng không có sự sinh sản. Trừ khi họ bị dục vọng làm cho mù quáng, nếu không họ sẽ không bước ra, họ có lỗi nếu bỏ rơi bổn phận và mềm lòng, đó là lao nhọc.</p>
 					<div class="space20">&nbsp;</div>
-					<form action="#" method="post" class="contact-form">	
+
+					<form action="{{ route('contact.submit') }}" method="POST" class="contact-form">
+						@csrf
 						<div class="form-block">
-							<input name="your-name" type="text" placeholder="Your Name (required)">
+							<input name="name" type="text" placeholder="Your Name (required)" required>
 						</div>
 						<div class="form-block">
-							<input name="your-email" type="email" placeholder="Your Email (required)">
+							<input name="email" type="email" placeholder="Your Email (required)" required>
 						</div>
 						<div class="form-block">
-							<input name="your-subject" type="text" placeholder="Subject">
+							<input name="subject" type="text" placeholder="Subject">
 						</div>
 						<div class="form-block">
-							<textarea name="your-message" placeholder="Your Message"></textarea>
+							<textarea name="message" placeholder="Your Message" required></textarea>
 						</div>
 						<div class="form-block">
 							<button type="submit" class="beta-btn primary">Send Message <i class="fa fa-chevron-right"></i></button>
 						</div>
 					</form>
+
 				</div>
 				<div class="col-sm-4">
 					<h2>Contact Information</h2>

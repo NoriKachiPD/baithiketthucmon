@@ -1,3 +1,6 @@
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
 <div class="navbar-default sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
@@ -15,7 +18,7 @@
             {{-- Dashboard --}}
             <li>
                 <a href="{{ route('admin.dashboard') }}">
-                    <i class="fa fa-dashboard fa-fw" style="color: orange;"></i> <m style="margin-left: 70px; font-weight: 900;">Dashboard
+                    <i class="fa fa-dashboard fa-fw" style="color: orange;"></i> <span style="margin-left: 70px; font-weight: 900;">Dashboard</span>
                 </a>
             </li>
 
@@ -54,6 +57,18 @@
                     <li><a href="{{ route('admin.user.add') }}">Add User</a></li>
                 </ul>
             </li>
+
+            {{-- Contact --}}
+            <li>
+                <span class="dropdown-toggle sidebar-link">
+                    <i class="fa fa-envelope fa-fw" style="color: orange;"></i> Contact
+                    <i class="fa fa-chevron-right arrow-icon"></i>
+                </span>
+                <ul class="nav nav-second-level">
+                    <li><a href="{{ route('admin.contact.list') }}">List Contact</a></li>
+                </ul>
+            </li>
+
         </ul>
     </div>
 </div>
@@ -95,25 +110,126 @@
         display: none;
         padding-left: 20px;
     }
+
+
+    
+    .search-dropdown {
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    position: absolute;
+    width: 90%;
+    z-index: 999;
+    max-height: 200px;
+    overflow-y: auto;
+    }
+
+    .search-dropdown li {
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    .search-dropdown li:hover {
+        background-color: #f0f0f0;
+    }
 </style>
 
 {{-- JS --}}
 <script>
     $(document).ready(function () {
-        $('.dropdown-toggle').on('click', function () {
-            const submenu = $(this).next('.nav-second-level');
-            const arrow = $(this).find('.arrow-icon');
-            const isVisible = submenu.is(':visible');
+        // Dropdown toggle cho sidebar
+        $('.dropdown-toggle').on('click', function (e) {
+            e.stopPropagation(); // không lan ra ngoài
 
-            // Ẩn tất cả submenu khác & reset tất cả icon
-            $('.nav-second-level').not(submenu).slideUp();
-            $('.arrow-icon').not(arrow).removeClass('rotate-down');
+            const $clickedToggle = $(this);
+            const $submenu = $clickedToggle.next('.nav-second-level');
+            const $arrow = $clickedToggle.find('.arrow-icon');
+            const isAlreadyOpen = $submenu.is(':visible');
 
-            // Toggle submenu hiện tại
-            submenu.slideToggle();
+            // Đóng hết các submenu
+            $('.nav-second-level').not($submenu).slideUp();
+            $('.arrow-icon').not($arrow).removeClass('rotate-down');
 
-            // Xoay icon tương ứng
-            arrow.toggleClass('rotate-down');
+            // Nếu submenu này đang đóng thì mở ra
+            if (!isAlreadyOpen) {
+                $submenu.stop(true, true).slideDown(); // đảm bảo không bị đè lệnh cũ
+                $arrow.addClass('rotate-down');
+            }
         });
+
+        // ✅ Ngăn menu bị ẩn khi click vào bên trong menu con
+        $('.nav-second-level').on('click', function (e) {
+            e.stopPropagation();
+        });
+
+        // Tìm kiếm (giữ nguyên như bạn có)
+        const searchableItems = [
+            { label: 'List Category', url: "{{ route('admin.category.list') }}" },
+            { label: 'Add Category', url: "{{ route('admin.category.add') }}" },
+            { label: 'List Product', url: "{{ route('admin.product.list') }}" },
+            { label: 'Add Product', url: "{{ route('admin.product.add') }}" },
+            { label: 'List User', url: "{{ route('admin.user.list') }}" },
+            { label: 'Add User', url: "{{ route('admin.user.add') }}" },
+            { label: 'List Contact', url: "{{ route('admin.contact.list') }}" },
+            { label: 'Dashboard', url: "{{ route('admin.dashboard') }}" }
+        ];
+
+        const $input = $('.custom-search-form input');
+        const $dropdown = $('<ul class="search-dropdown"></ul>').insertAfter('.custom-search-form');
+
+        function renderDropdown(results) {
+            $dropdown.empty();
+            if (results.length === 0) {
+                $dropdown.hide();
+                return;
+            }
+            results.forEach(item => {
+                const $li = $('<li></li>').text(item.label).data('url', item.url);
+                $dropdown.append($li);
+            });
+            $dropdown.show();
+        }
+
+        $input.on('input', function () {
+            $dropdown.hide();
+        });
+
+        $input.on('keypress', function (e) {
+            if (e.which === 13) {
+                const keyword = $input.val().toLowerCase();
+                const results = searchableItems.filter(item =>
+                    item.label.toLowerCase().includes(keyword)
+                );
+                renderDropdown(results);
+            }
+        });
+
+        $('.custom-search-form button').on('click', function () {
+            const keyword = $input.val().toLowerCase();
+            const results = searchableItems.filter(item =>
+                item.label.toLowerCase().includes(keyword)
+            );
+            renderDropdown(results);
+        });
+
+        $dropdown.on('click', 'li', function () {
+            const url = $(this).data('url');
+            window.location.href = url;
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.custom-search-form').length) {
+                $dropdown.hide();
+            }
+        });
+    });
+        $(document).on('click', function (e) {
+        if (!$(e.target).closest('.sidebar').length) {
+            $('.nav-second-level').slideUp();
+            $('.arrow-icon').removeClass('rotate-down');
+        }
     });
 </script>
