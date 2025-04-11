@@ -32,11 +32,8 @@
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
-
                 <form action="{{ route('admin.user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
-
                     <div class="form-group">
                         <label>Họ tên</label>
                         <input class="form-control" name="full_name" value="{{ $user->full_name }}" required />
@@ -55,6 +52,11 @@
                     <div class="form-group">
                         <label>Địa chỉ</label>
                         <input class="form-control" name="address" value="{{ $user->address }}" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mật khẩu</label>
+                        <input class="form-control" type="password" name="password" />
                     </div>
 
                     <div class="form-group">

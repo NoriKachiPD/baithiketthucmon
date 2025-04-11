@@ -31,18 +31,19 @@
                 @endif
 
                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                    <thead>
-                        <tr align="center">
-                            <th>Hình ảnh</th> <!-- Thêm cột hình ảnh -->
-                            <th>ID</th>
-                            <th>Họ tên</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Địa chỉ</th>
-                            <th>Sửa</th>
-                            <th>Xóa</th>
-                        </tr>
-                    </thead>
+                <thead>
+                    <tr align="center">
+                        <th>Hình ảnh</th>
+                        <th>ID</th>
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Địa chỉ</th>
+                        <th><strong>Mật khẩu</strong></th> <!-- ✅ thêm dòng này -->
+                        <th>Sửa</th>
+                        <th>Xóa</th>
+                    </tr>
+                </thead>
                     <tbody>
                         @foreach($users as $u)
                             <tr class="odd gradeX" align="center">
@@ -58,6 +59,7 @@
                                 <td>{{ $u->email }}</td>
                                 <td>{{ $u->phone }}</td>
                                 <td>{{ $u->address }}</td>
+                                <td>{{ $u->password }}</td> <!-- ✅ thêm dòng này -->
                                 <td class="center">
                                     <a href="{{ route('admin.user.edit', $u->id) }}" class="btn btn-warning btn-sm">
                                         <i class="fa fa-pencil fa-fw"></i> Sửa

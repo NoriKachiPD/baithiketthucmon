@@ -10,10 +10,37 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\UserController;
 // use App\Http\Middleware\AdminOnlyMiddleware;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ChangePasswordController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Hiển thị form đổi mật khẩu
+Route::get('/password/change', [UserController::class, 'showChangePasswordForm'])->name('password.change.form');
+
+// Gửi mã xác nhận
+Route::post('/password/change', [UserController::class, 'handleChangePassword'])->name('password.change.submit');
+
+// Trang xác nhận mã gửi mail
+Route::get('/password/verify', [UserController::class, 'showVerifyForm'])->name('password.verify.form');
+
+// Xác nhận mã và đổi mật khẩu
+Route::post('/password/verify', [UserController::class, 'verifyCodeAndUpdatePassword'])->name('password.verify.submit');
+
+
+// // Hiển thị form xác minh mã
+// Route::get('/verify-code', [ChangePasswordController::class, 'showVerifyForm'])->name('verify.code.form');
+
+// // Xử lý xác minh mã
+// Route::post('/verify-code', [ChangePasswordController::class, 'verifyCode'])->name('verify.code');
+
+
+
+
+
+Route::get('quen-mat-khau', [PageController::class, 'getResetPassword'])->name('getResetPassword');
+Route::post('quen-mat-khau', [PageController::class, 'postResetPassword'])->name('postResetPassword');
 
 Route::post('/contact-submit', [ContactController::class, 'submit'])->name('contact.submit');
 

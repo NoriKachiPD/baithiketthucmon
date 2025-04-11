@@ -20,6 +20,8 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Mail;
 
+use App\Mail\PasswordMail;
+
 use App\Mail\OrderDeliveredMail;
 use App\Mail\OrderCancelledMail;
 
@@ -29,8 +31,6 @@ use App\Mail\OrderConfirmationMail;  // Import class đúng
 class PageController extends Controller
 {
 
-
-    
     // public function getIndex(){
     //     $slides= Slide::all();  //trả về kiểu dữ liệu Collection, Illuminate\Database\Eloquent\Collection
 
@@ -273,6 +273,33 @@ public function postLogin(Request $req){
         //     return redirect()->back()->with(['flag'=>'danger','message'=>'Đăng nhập không thành công']);
         // }
     }
+
+    public function getResetPassword()
+    {
+        return view('page.quenmatkhau');
+    }
+    
+    public function postResetPassword(Request $req)
+    {
+        $req->validate([
+            'email' => 'required|email'
+        ]);
+    
+        $user = User::where('email', $req->email)->first();
+    
+        if (!$user) {
+            return redirect()->back()->with('message', 'Email không tồn tại trong hệ thống.');
+        }
+    
+        $newPass = Str::random(8);
+        $user->password = Hash::make($newPass);
+        $user->save();
+    
+        Mail::to($req->email)->send(new PasswordMail($req->email, $newPass));
+    
+        return redirect()->route('getlogin')->with('flag', 'alert')->with('message', 'Mật khẩu mới đã được gửi đến email của bạn.');
+    }
+
     public function getLogout(Request $request)
     {
         Auth::logout();

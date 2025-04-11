@@ -2,7 +2,7 @@
 
 @section('title', 'Sign Up')
 
-@section('favicon', asset('images/2.jpg'))
+@section('favicon', asset('images/Key.png'))
 
 @section('content')
 <div class="container">

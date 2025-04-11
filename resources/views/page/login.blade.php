@@ -2,7 +2,7 @@
 
 @section('title', 'Log In')
 
-@section('favicon', asset('images/2.jpg'))
+@section('favicon', asset('images/Key.png'))
 
 @section('content')
 <div class="container">
@@ -35,6 +35,9 @@
                     </div>
                     <div class="form-block">
                         <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                    <div class="form-block">
+                        <a href="{{ route('getResetPassword') }}">Quên mật khẩu?</a>
                     </div>
                 </div>
             <div class="col-sm-3"></div>

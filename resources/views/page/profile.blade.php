@@ -71,7 +71,9 @@
                 <img src="{{ asset('uploads/users/' . $user->image) }}" width="100" style="margin-top: 10px;">
             @endif
         </div>
-
+        <a href="{{ route('password.change.form') }}" class="btn btn-warning mt-3" style="margin-bottom: 50px; margin-top: 10px;">
+            Đổi mật khẩu
+        </a>
         <button type="submit" class="btn btn-primary" style="margin-bottom: 50px; margin-top: 10px;">Cập nhật</button>
     </form>
 </div>
