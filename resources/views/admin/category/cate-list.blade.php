@@ -10,15 +10,20 @@
             <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Category
-                            <small>List</small>
-                        </h1>
-                    </div>
+                <div class="col-lg-12">
+                    <h1 class="page-header" style="margin-bottom: 10px;">Category
+                        <small>List</small>
+                    </h1>
+                </div>
 
-                    <div class="col-lg-12" style="margin-bottom: 20px;">
-                        <a href="{{ route('admin.category.add') }}" class="btn btn-primary">Add New Category</a>
-                    </div>
+                <div class="col-lg-12" style="margin-bottom: 20px;">
+                    <a href="{{ url()->current() }}" class="btn btn-success" style="border-radius: 999px;">
+                        🔄 Refresh
+                    </a>
+                    <a href="{{ route('admin.category.add') }}" class="btn btn-primary" style="border-radius: 999px; margin-left: 10px;">
+                        ➕ Add New Category
+                    </a>
+                </div>
 
                     @if(session('success'))
                         <div class="alert alert-success">{{ session('success') }}</div>

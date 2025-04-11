@@ -32,7 +32,7 @@ Route::get('/add-to-cart/{id}',[PageController::class,'addToCart'])->name('banha
 Route::get('/del-cart/{id}',[PageController::class,'delCartItem'])->name('banhang.xoagiohang');
 
 Route::get('/checkout',[PageController::class,'getCheckout'])->name('banhang.getdathang');
-Route::post('/checkout',[PageController::class,'postCheckout'])->name('banhang.postdathang');
+// Route::post('/checkout',[PageController::class,'postCheckout'])->name('banhang.postdathang');
 
 Route::get('/contacts', function () {
     return view('page.contacts');
@@ -177,7 +177,27 @@ Route::prefix('admin')->middleware(AdminLoginMiddleware::class)->group(function 
         Route::delete('contacts/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
     });
 
+    // Admin Order Routes
+    Route::prefix('order')->group(function () {
+        Route::get('/list', [PageController::class, 'orderList'])->name('admin.order.orderlist'); // giữ nguyên tên
+        Route::put('/{id}', [PageController::class, 'updateOrderStatus'])->name('admin.order.update');
+        Route::delete('/{id}', [PageController::class, 'deleteOrder'])->name('admin.order.delete');
+    });    
+
 });
 
 Route::get('/profile', [PageController::class, 'getProfile'])->name('profile');
 Route::post('/profile', [PageController::class, 'postProfile'])->name('profile.update');
+
+// Hiển thị form đặt hàng
+Route::get('dathang', [PageController::class, 'getDatHang'])->name('banhang.dathang');
+
+// Xử lý khi submit form đặt hàng
+Route::post('dathang', [PageController::class, 'postDatHang'])->name('banhang.postdathang');
+
+// Tra cứu đơn hàng
+Route::get('/orders/track', [App\Http\Controllers\PageController::class, 'trackOrder'])->name('track');
+
+Route::post('/admin/order-list/{id}/update', [PageController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
+
+Route::put('/admin/order-list/{code}/update', [PageController::class, 'updateOrderStatus'])->name('admin.order.update');

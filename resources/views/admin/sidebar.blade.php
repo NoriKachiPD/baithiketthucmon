@@ -69,6 +69,19 @@
                 </ul>
             </li>
 
+            {{-- Order --}}
+            <li>
+                <span class="dropdown-toggle sidebar-link">
+                    <i class="fa fa-shopping-cart fa-fw" style="color: orange;"></i> Order
+                    <i class="fa fa-chevron-right arrow-icon"></i>
+                </span>
+                <ul class="nav nav-second-level">
+                    <li><a href="{{ route('admin.order.orderlist') }}">List Order</a></li>
+                    {{-- Nếu có thêm chức năng tạo đơn hàng, bạn thêm ở đây --}}
+                    {{-- <li><a href="{{ route('admin.order.add') }}">Add Order</a></li> --}}
+                </ul>
+            </li>
+
         </ul>
     </div>
 </div>

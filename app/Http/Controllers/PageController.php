@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use Illuminate\Support\Facades\Mail;
+
+use App\Mail\OrderDeliveredMail;
+use App\Mail\OrderCancelledMail;
+
+use App\Mail\OrderConfirmationMail;  // Import class đúng
+
 
 class PageController extends Controller
 {
@@ -142,59 +153,59 @@ class PageController extends Controller
     
 
     public function getCheckout()
-{
-    if (!Session::has('cart')) {
-        // Nếu không có giỏ hàng, trả về view với giỏ hàng trống
+    {
+        if (!Session::has('cart')) {
+            // Nếu không có giỏ hàng, trả về view với giỏ hàng trống
+            return view('page.checkout', [
+                'productCarts' => [],
+                'cart' => null,
+                'totalPrice' => 0
+            ]);
+        }
+
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+
         return view('page.checkout', [
-            'productCarts' => [],
-            'cart' => null,
-            'totalPrice' => 0
+            'productCarts' => $cart->items,
+            'cart' => $cart, // Thêm dòng này để truyền biến $cart sang view
+            'totalPrice' => $cart->totalPrice
         ]);
     }
 
-    $oldCart = Session::get('cart');
-    $cart = new Cart($oldCart);
+    // public function postCheckout(Request $request)
+    // {
+    //     $cart=Session::get('cart');
+    //     $customer=new Customer();
+    //     $customer->name=$request->input('name');
+    //     $customer->gender=$request->input('gender');
+    //     $customer->email=$request->input('email');
+    //     $customer->address=$request->input('address');
+    //     $customer->phone_number=$request->input('phone_number');
+    //     $customer->note=$request->input('notes');
+    //     $customer->save();
 
-    return view('page.checkout', [
-        'productCarts' => $cart->items,
-        'cart' => $cart, // Thêm dòng này để truyền biến $cart sang view
-        'totalPrice' => $cart->totalPrice
-    ]);
-}
+    //     $bill=new Bill();
+    //     $bill->id_customer=$customer->id;
+    //     $bill->date_order=date('Y-m-d');
+    //     $bill->total=$cart->totalPrice;
+    //     $bill->payment=$request->input('payment_method');
+    //     $bill->note=$request->input('notes');
+    //     $bill->save();
 
-    public function postCheckout(Request $request){
-    
-        $cart=Session::get('cart');
-        $customer=new Customer();
-        $customer->name=$request->input('name');
-        $customer->gender=$request->input('gender');
-        $customer->email=$request->input('email');
-        $customer->address=$request->input('address');
-        $customer->phone_number=$request->input('phone_number');
-        $customer->note=$request->input('notes');
-        $customer->save();
+    //     foreach($cart->items as $key=>$value)
+    //     {
+    //         $bill_detail=new BillDetail();
+    //         $bill_detail->id_bill=$bill->id;
+    //         $bill_detail->id_product=$key;
+    //         $bill_detail->quantity=$value['qty'];
+    //         $bill_detail->unit_price=$value['price']/$value['qty'];
+    //         $bill_detail->save();
+    //     }
+    //     Session::forget('cart');
+    //     return redirect()->back()->with('success','Đặt hàng thành công');
 
-        $bill=new Bill();
-        $bill->id_customer=$customer->id;
-        $bill->date_order=date('Y-m-d');
-        $bill->total=$cart->totalPrice;
-        $bill->payment=$request->input('payment_method');
-        $bill->note=$request->input('notes');
-        $bill->save();
-
-        foreach($cart->items as $key=>$value)
-        {
-            $bill_detail=new BillDetail();
-            $bill_detail->id_bill=$bill->id;
-            $bill_detail->id_product=$key;
-            $bill_detail->quantity=$value['qty'];
-            $bill_detail->unit_price=$value['price']/$value['qty'];
-            $bill_detail->save();
-        }
-        Session::forget('cart');
-        return redirect()->back()->with('success','Đặt hàng thành công');
-
-    }
+    // }
 
     public function getSignin(){
        
@@ -327,5 +338,111 @@ public function postLogin(Request $req){
         return redirect()->back()->with('success', 'Cập nhật thông tin thành công');
     }
     
+    public function orderList()
+    {
+        $orders = Order::all(); // hoặc select cụ thể: Order::select('order_code', 'name', ..., 'quantity', ...)->get();
+        $orders = Order::orderBy('created_at', 'desc')->get();
+        return view('admin.order.order-list', compact('orders'));
+    }
+    
+    public function updateOrderStatus(Request $request, $code)
+    {
+        $order = Order::where('order_code', $code)->firstOrFail(); // ✅ Trả về 1 Order đơn lẻ
+    
+        $order->status = $request->status;
+        $order->save();
+    
+        if ($order->status === 'Giao hàng thành công') {
+            Mail::to($order->email)->send(new OrderDeliveredMail($order));
+        } elseif ($order->status === 'Đơn hàng bị hủy') {
+            Mail::to($order->email)->send(new OrderCancelledMail($order));
+        }
+    
+        return redirect()->route('admin.order.orderlist')->with('success', 'Cập nhật trạng thái thành công và đã thông báo qua email!');
+    }    
+    
 
+    public function deleteOrder($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->delete();
+        return back()->with('success', 'Xóa đơn hàng thành công!');
+    }
+    public function trackOrder(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để tra cứu đơn hàng.');
+        }
+
+        $email = Auth::user()->email;
+        $search = $request->input('search');
+
+        $orders = Order::query()
+            ->where('email', $email)
+            ->when($search, function ($query, $search) {
+                return $query->where('order_code', 'like', "%{$search}%");
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Đảm bảo luôn truyền biến $orders và $search xuống view
+        return view('orders.track', [
+            'orders' => $orders ?? collect(), // ← fallback nếu cần
+            'search' => $search
+        ]);
+    }
+
+    private function generateOrderCode()
+    {
+        do {
+            // Tạo mã với 3 chữ cái ngẫu nhiên + 4 số ngẫu nhiên, ví dụ: ABC1234
+            $code = strtoupper(Str::random(3)) . rand(1000, 9999);
+        } while (Order::where('order_code', $code)->exists()); // kiểm tra trùng
+    
+        return $code;
+    }
+
+    public function getDatHang()
+    {
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+
+        if ($oldCart) {
+            $cart = new \App\Models\Cart($oldCart); // ✅ đúng namespace
+        } else {
+            $cart = null;
+        }
+
+        return view('banhang.dathang', ['cart' => $cart]);
+    }
+
+    public function postDatHang(Request $request)
+    {
+        $cart = Session::get('cart'); // Lấy giỏ hàng từ session
+    
+        $totalQuantity = 0;
+        if ($cart && $cart->items) {
+            foreach ($cart->items as $product) {
+                $totalQuantity += $product['qty'];
+            }
+        }
+    
+        $order = new Order();
+        $order->order_code = $this->generateOrderCode(); // ✅ Dùng code tự động, không hardcode nữa
+        $order->name = $request->name;
+        $order->email = $request->email;
+        $order->phone_number = $request->phone_number;
+        $order->address = $request->address;
+        $order->gender = $request->gender;
+        $order->total_price = $request->total_price;
+        $order->notes = $request->notes;
+        $order->payment_method = $request->payment_method;
+        $order->product_quantity = $totalQuantity;
+        $order->save();
+    
+        Mail::to($order->email)->send(new OrderConfirmationMail($order));
+
+        Session::forget('cart');
+    
+        return redirect()->route('banhang.getdathang')->with('success', 'Đặt hàng thành công!');
+    }    
 }

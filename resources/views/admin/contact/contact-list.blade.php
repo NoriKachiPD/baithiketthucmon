@@ -10,11 +10,16 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Liên hệ
+            <div class="col-lg-12">
+                <div class="d-flex justify-content-between align-items-center mb-3" style="margin-bottom: 20px;">
+                    <h1 class="page-header" style="margin-bottom: 0;">Liên hệ
                         <small>Danh sách</small>
                     </h1>
+                    <a href="{{ url()->current() }}" class="btn btn-success" style="border-radius: 20px;">
+                        🔄 Refresh
+                    </a>
                 </div>
+            </div>
 
                 @if(session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
