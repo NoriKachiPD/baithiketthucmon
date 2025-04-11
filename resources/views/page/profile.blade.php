@@ -14,11 +14,6 @@
                 alt="Avatar"
                 class="rounded-circle"
                 style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #ccc; margin-top: 10px;">
-        @else
-            <img src="{{ asset('images/user.png') }}"
-                alt="Default Avatar"
-                class="rounded-circle"
-                style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #ccc; margin-top: 10px;">
         @endif
     </div>
     @if (session('success'))

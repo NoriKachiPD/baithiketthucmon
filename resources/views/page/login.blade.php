@@ -6,13 +6,13 @@
 
 @section('content')
 <div class="container">
-    <h2>Đăng Nhập</h2>
+    <h1 style="margin-top: 40px; margin-bottom: 40px; margin-left: 470px;">Đăng Nhập</h1>
     <form action="{{ route('postlogin') }}" method="post" class="beta-form-checkout">
     @csrf
         <div class="row">
             <div class="col-sm-3"></div>
                 <div class="col-sm-6">
-                    <h4>Đăng nhập</h4>
+                    <!-- <h4>Đăng nhập</h4> -->
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -36,7 +36,7 @@
                     <div class="form-block">
                         <button type="submit" class="btn btn-primary">Login</button>
                     </div>
-                    <div class="form-block">
+                    <div class="form-block" style="margin-bottom: 50px;">
                         <a href="{{ route('getResetPassword') }}">Quên mật khẩu?</a>
                     </div>
                 </div>

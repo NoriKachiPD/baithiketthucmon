@@ -214,29 +214,34 @@ class PageController extends Controller
 
     public function postSignin(Request $req){
         $validated = $req->validate(
-        ['email'=>'required|email|unique:users,email',
-            'password'=>'required|min:6|max:20',
-            'fullname'=>'required',
-            'repassword'=>'required|same:password'
-        ],
-        ['email.required'=>'Vui lòng nhập email',
-        'email.email'=>'Không đúng định dạng email',
-        'email.unique'=>'Email đã có người sử  dụng',
-        'password.required'=>'Vui lòng nhập mật khẩu',
-        'repassword.same'=>'Mật khẩu không giống nhau',
-        'password.min'=>'Mật khẩu ít nhất 6 ký tự'
-        ]);
-
-        $user=new User();
-        $user->full_name=$req->fullname;
-        $user->email=$req->email;
-        $user->password=Hash::make($req->password);
-        $user->phone=$req->phone;
-        $user->address=$req->address;
-        $user->level=3;  //level=1: admin; level=2:kỹ thuật; level=3: khách hàng
+            [
+                'email' => 'required|email|unique:users,email',
+                'password' => 'required|min:6|max:20',
+                'fullname' => 'required',
+                'repassword' => 'required|same:password'
+            ],
+            [
+                'email.required' => 'Vui lòng nhập email',
+                'email.email' => 'Không đúng định dạng email',
+                'email.unique' => 'Email đã có người sử  dụng',
+                'password.required' => 'Vui lòng nhập mật khẩu',
+                'repassword.same' => 'Mật khẩu không giống nhau',
+                'password.min' => 'Mật khẩu ít nhất 6 ký tự'
+            ]
+        );
+    
+        $user = new User();
+        $user->full_name = $req->fullname;
+        $user->email = $req->email;
+        $user->password = Hash::make($req->password);
+        $user->phone = $req->phone;
+        $user->address = $req->address;
+        $user->level = 3; // 1: admin, 2: kỹ thuật, 3: khách hàng
+        $user->image = 'user.png'; // Gán tên ảnh mặc định
         $user->save();
-        return redirect()->back()->with('success','Tạo tài khoản thành công');
-    }
+    
+        return redirect()->back()->with('success', 'Tạo tài khoản thành công');
+    }    
 
     public function getLogin(){
         return view('page.login');
@@ -337,7 +342,7 @@ public function postLogin(Request $req){
             'email' => 'required|email|unique:users,email,' . Auth::id(),
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,JPG,JPEG,PNG|max:10240',
         ]);
     
         /** @var \App\Models\User $user */
@@ -346,6 +351,7 @@ public function postLogin(Request $req){
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
         $user->address = $request->input('address');
+        $user->image = $request->input('image');
     
         if ($request->hasFile('image')) {
             $file = $request->file('image');

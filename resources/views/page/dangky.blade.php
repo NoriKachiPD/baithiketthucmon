@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container">
-    <h2>Đăng Ký Tài Khoản</h2>
+    <h1 style="margin-top: 40px; margin-bottom: 40px; margin-left: 400px;">Đăng Ký Tài Khoản</h1>
     <form action="{{ route('postsignin') }}" method="post" class="beta-form-checkout">
     @csrf
         <div class="row">
@@ -22,7 +22,7 @@
                 <div class="alert alert-success">{{ Session::get('success') }}</div>
             @endif
             <div class="col-sm-6">
-                <h4>Đăng kí</h4>
+                <!-- <h4>Đăng kí</h4> -->
                 <div class="form-block">
                     <label for="fullname">Họ và tên*</label>
                     <input type="text" name="fullname" id="fullname" required>
@@ -47,7 +47,7 @@
                     <label for="repassword">Re Password*</label>
                     <input type="password" name="repassword" id="repassword" required>
                 </div>
-                <div class="form-block">
+                <div class="form-block" style="margin-bottom: 50px;">
                     <button type="submit" class="btn btn-primary">Register</button>
                 </div>
             </div>
