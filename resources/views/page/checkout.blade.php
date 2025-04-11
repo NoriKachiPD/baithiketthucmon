@@ -7,7 +7,7 @@
 @section('content')
     <div class="container">
         <div id="content">
-            <form action="{{ route('banhang.postdathang') }}" method="post" class="beta-form-checkout">
+            <form action="{{ route('banhang.postdathang') }}" method="post" class="beta-form-checkout" style="margin-bottom: 100px; font-weight: 900; margin-left: 150px;">
                 @csrf
                 <div class="row">
                     <!-- session('success') sinh ra từ hàm postDatHang trong PageController -->
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="your-order">
-                            <div class="your-order-head"><h5>Đơn hàng của bạn</h5></div>
+                            <div class="your-order-head"><h5 style="margin-left: -30px;">Đơn hàng của bạn</h5></div>
                             <div class="your-order-body" style="padding: 0px 10px">
                                 <div class="your-order-item">
                                     <div>
@@ -101,14 +101,14 @@
                                     </div>
                                 </div>
                                 <div class="your-order-item">
-                                    <div class="pull-left"><p class="your-order-f18">Tổng tiền:</p></div>
-                                    <div class="pull-right"><h5 class="color-black">{{ number_format($cart ? $cart->totalPrice : 0) }}</h5></div>
+                                    <div class="pull-left"><p class="your-order-f18" style="margin-top: 19px;">Tổng tiền:</p></div>
+                                    <div class="pull-right"><h5 class="color-black" style="margin-top: 10px;">{{ number_format($cart ? $cart->totalPrice : 0) }}₫</h5></div>
                                 </div>
                             </div>
 
-                            <div class="your-order-head"><h5>Hình thức thanh toán</h5></div>
+                            <div class="your-order-head"><h5 style="margin-top: 65px;">Hình thức thanh toán</h5></div>
 
-                            <div class="your-order-body">
+                            <div class="your-order-body" style="margin-top: 20px;">
                                 <ul class="payment_methods methods">
                                     <li class="payment_method_bacs">
                                         <input id="payment_method_bacs" type="radio" class="input-radio" name="payment_method" value="COD" checked="checked" data-order_button_text="">

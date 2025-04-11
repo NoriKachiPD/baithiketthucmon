@@ -61,7 +61,7 @@
                                     <form action="{{ route('admin.order.update', $order->order_code) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <div style="min-width: 270px;">
+                                        <div style="min-width: 220px;">
                                             @php
                                                 $statuses = [
                                                     'Đã nhận đơn' => ['📝', '#6f42c1', 'white'],
