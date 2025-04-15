@@ -1,293 +1,294 @@
-@extends('layout.masters')
+@extends('layout.master')
 
-@section('title', 'Product')
+@section('title', 'Sản phẩm')
 
-@section('favicon', asset('images/2.jpg'))
+@section('favicon', asset('images/Cart.jpg'))
 
 @section('content')
-	<div class="inner-header">
-		<div class="container">
-			<div class="pull-left">
-				<h6 class="inner-title">Product</h6>
-			</div>
-			<div class="pull-right">
-				<div class="beta-breadcrumb font-large">
-					<a href="index.html">Home</a> / <span>Product</span>
-				</div>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-	</div>
+<style>/* Style cho dropdown menu */
+#product-filter {
+    width: 250px;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative; /* Để có thể điều chỉnh vị trí dễ dàng */
+    left: 20px; /* Đẩy dropdown ra khỏi cạnh trái */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
 
-	<div class="container">
-		<div id="content">
-			<div class="row">
-				<div class="col-sm-9">
+#product-filter:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05); /* Tạo hiệu ứng phóng to nhẹ khi hover */
+}
 
-					<div class="row">
-						<div class="col-sm-4">
-							<img src="source/assets/dest/images/products/6.jpg" alt="">
-						</div>
-						<div class="col-sm-8">
-							<div class="single-item-body">
-								<p class="single-item-title">Sample Woman Top</p>
-								<p class="single-item-price">
-									<span>$34.55</span>
-								</p>
-							</div>
+#product-filter option {
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
 
-							<div class="clearfix"></div>
-							<div class="space20">&nbsp;</div>
+#product-filter option:hover {
+    background-color: #f7f7f7; /* Hiệu ứng khi hover vào option */
+    color: #007bff; /* Đổi màu chữ khi hover */
+}
 
-							<div class="single-item-desc">
-								<p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo ms id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe.</p>
-							</div>
-							<div class="space20">&nbsp;</div>
+/* Style cho sản phẩm */
+.beta-products-list {
+    margin-top: 30px;
+}
 
-							<p>Options:</p>
-							<div class="single-item-options">
-								<select class="wc-select" name="size">
-									<option>Size</option>
-									<option value="XS">XS</option>
-									<option value="S">S</option>
-									<option value="M">M</option>
-									<option value="L">L</option>
-									<option value="XL">XL</option>
-								</select>
-								<select class="wc-select" name="color">
-									<option>Color</option>
-									<option value="Red">Red</option>
-									<option value="Green">Green</option>
-									<option value="Yellow">Yellow</option>
-									<option value="Black">Black</option>
-									<option value="White">White</option>
-								</select>
-								<select class="wc-select" name="color">
-									<option>Qty</option>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
-									<option value="5">5</option>
-								</select>
-								<a class="add-to-cart" href="#"><i class="fa fa-shopping-cart"></i></a>
-								<div class="clearfix"></div>
-							</div>
-						</div>
-					</div>
+.single-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    margin-bottom: 20px; /* Đảm bảo có khoảng cách giữa các sản phẩm */
+}
 
-					<div class="space40">&nbsp;</div>
-					<div class="woocommerce-tabs">
-						<ul class="tabs">
-							<li><a href="#tab-description">Description</a></li>
-							<li><a href="#tab-reviews">Reviews (0)</a></li>
-						</ul>
+.single-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-						<div class="panel" id="tab-description">
-							<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.</p>
-							<p>Consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequaturuis autem vel eum iure reprehenderit qui in ea voluptate velit es quam nihil molestiae consequr, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? </p>
-						</div>
-						<div class="panel" id="tab-reviews">
-							<p>No Reviews</p>
-						</div>
-					</div>
-					<div class="space50">&nbsp;</div>
-					<div class="beta-products-list">
-						<h4>Related Products</h4>
+.single-item-header img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+}
 
-						<div class="row">
-							<div class="col-sm-4">
-								<div class="single-item">
-									<div class="single-item-header">
-										<a href="{{ route('product') }}"><img src="source/assets/dest/images/products/4.jpg" alt=""></a>
-									</div>
-									<div class="single-item-body">
-										<p class="single-item-title">Sample Woman Top</p>
-										<p class="single-item-price">
-											<span>$34.55</span>
-										</p>
-									</div>
-									<div class="single-item-caption">
-										<a class="add-to-cart pull-left" href="{{ route('product') }}"><i class="fa fa-shopping-cart"></i></a>
-										<a class="beta-btn primary" href="{{ route('product') }}">Details <i class="fa fa-chevron-right"></i></a>
-										<div class="clearfix"></div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="single-item">
-									<div class="single-item-header">
-										<a href="{{ route('product') }}"><img src="source/assets/dest/images/products/5.jpg" alt=""></a>
-									</div>
-									<div class="single-item-body">
-										<p class="single-item-title">Sample Woman Top</p>
-										<p class="single-item-price">
-											<span>$34.55</span>
-										</p>
-									</div>
-									<div class="single-item-caption">
-										<a class="add-to-cart pull-left" href="{{ route('product') }}"><i class="fa fa-shopping-cart"></i></a>
-										<a class="beta-btn primary" href="{{ route('product') }}">Details <i class="fa fa-chevron-right"></i></a>
-										<div class="clearfix"></div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div class="single-item">
-									<div class="ribbon-wrapper"><div class="ribbon sale">Sale</div></div>
+.single-item-header img:hover {
+    transform: scale(1.05);
+}
 
-									<div class="single-item-header">
-										<a href="#"><img src="source/assets/dest/images/products/6.jpg" alt=""></a>
-									</div>
-									<div class="single-item-body">
-										<p class="single-item-title">Sample Woman Top</p>
-										<p class="single-item-price">
-											<span class="flash-del">$34.55</span>
-											<span class="flash-sale">$33.55</span>
-										</p>
-									</div>
-									<div class="single-item-caption">
-										<a class="add-to-cart pull-left" href="#"><i class="fa fa-shopping-cart"></i></a>
-										<a class="beta-btn primary" href="#">Details <i class="fa fa-chevron-right"></i></a>
-										<div class="clearfix"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> <!-- .beta-products-list -->
-				</div>
-				<div class="col-sm-3 aside">
-					<div class="widget">
-						<h3 class="widget-title">Best Sellers</h3>
-						<div class="widget-body">
-							<div class="beta-sales beta-lists">
-								<div class="media beta-sales-item">
-									<a class="pull-left" href="{{ route('product') }}"><img src="source/assets/dest/images/products/sales/1.png" alt=""></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-								<div class="media beta-sales-item">
-									<a class="pull-left" href="{{ route('product') }}"><img src="source/assets/dest/images/products/sales/2.png" alt=""></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-								<div class="media beta-sales-item">
-									<a class="pull-left" href="{{ route('product') }}"><img src="source/assets/dest/images/products/sales/3.png" alt=""></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-								<div class="media beta-sales-item">
-									<a class="pull-left" href="{{ route('product') }}"><img src="source/assets/dest/images/products/sales/4.png" alt=""></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> <!-- best sellers widget -->
-					<div class="widget">
-						<h3 class="widget-title">New Products</h3>
-						<div class="widget-body">
-							<div class="beta-sales beta-lists">
-								<div class="media beta-sales-item">
-									<a class="pull-left" href="{{ route('product') }}"><img src="source/assets/dest/images/products/sales/1.png" alt=""></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-								<div class="media beta-sales-item">
-									<a class="pull-left" href="{{ route('product') }}"><img src="source/assets/dest/images/products/sales/2.png" alt=""></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-								<div class="media beta-sales-item">
-									<a class="pull-left" href="{{ route('product') }}"><img src="source/assets/dest/images/products/sales/3.png" alt=""></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-								<div class="media beta-sales-item">
-									<a class="pull-left" href="{{ route('product') }}"><img src="source/assets/dest/images/products/sales/4.png" alt=""></a>
-									<div class="media-body">
-										Sample Woman Top
-										<span class="beta-sales-price">$34.55</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> <!-- best sellers widget -->
-				</div>
-			</div>
-		</div> <!-- #content -->
-	</div> <!-- .container -->
+.single-item-body {
+    padding: 15px;
+    text-align: center;
+}
 
-	<!-- include js files -->
-	<script src="source/assets/dest/js/jquery.js"></script>
-	<script src="source/assets/dest/vendors/jqueryui/jquery-ui-1.10.4.custom.min.js"></script>
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-	<script src="source/assets/dest/vendors/bxslider/jquery.bxslider.min.js"></script>
-	<script src="source/assets/dest/vendors/colorbox/jquery.colorbox-min.js"></script>
-	<script src="source/assets/dest/vendors/animo/Animo.js"></script>
-	<script src="source/assets/dest/vendors/dug/dug.js"></script>
-	<script src="source/assets/dest/js/scripts.min.js"></script>
+.single-item-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+    transition: color 0.3s ease;
+}
 
-	<!--customjs-->
-	<script type="text/javascript">
-    $(function() {
-        // this will get the full URL at the address bar
-        var url = window.location.href;
+.single-item-title:hover {
+    color: #ef4444; /* Đổi màu chữ khi hover */
+}
 
-        // passes on every "a" tag
-        $(".main-menu a").each(function() {
-            // checks if its the same on the address bar
-            if (url == (this.href)) {
-                $(this).closest("li").addClass("active");
-				$(this).parents('li').addClass('parent-active');
-            }
-        });
-    });
+.single-item-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e74c3c;
+    margin-bottom: 10px;
+}
 
+.single-item-price .flash-del {
+    text-decoration: line-through;
+    color: #999;
+    margin-right: 10px;
+}
 
-</script>
-<script>
-	 jQuery(document).ready(function($) {
-                'use strict';
+.single-item-caption {
+    text-align: center;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #ddd;
+}
 
-// color box
+/* Nút "Thêm vào giỏ hàng" */
+.add-to-cart {
+    background-color: #28a745;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: flex;
+    align-items: center; /* Căn giữa icon và text */
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    height: 37px;
+}
 
-//color
-      jQuery('#style-selector').animate({
-      left: '-213px'
-    });
+.add-to-cart:hover {
+    background-color: #218838;
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
 
-    jQuery('#style-selector a.close').click(function(e){
-      e.preventDefault();
-      var div = jQuery('#style-selector');
-      if (div.css('left') === '-213px') {
-        jQuery('#style-selector').animate({
-          left: '0'
-        });
-        jQuery(this).removeClass('icon-angle-left');
-        jQuery(this).addClass('icon-angle-right');
-      } else {
-        jQuery('#style-selector').animate({
-          left: '-213px'
-        });
-        jQuery(this).removeClass('icon-angle-right');
-        jQuery(this).addClass('icon-angle-left');
-      }
-    });
-				});
-	</script>
+.add-to-cart:active {
+    background-color: #1e7e34; /* Đổi màu khi click */
+}
+
+.add-to-cart i {
+    margin-right: 8px; /* Khoảng cách giữa icon và chữ */
+    font-size: 18px; /* Kích thước icon */
+}
+
+/* Cải thiện nút "Chi tiết" */
+.beta-btn.primary {
+    background-color: #ef4444;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+	border: none;
+}
+
+.beta-btn.primary:hover {
+    background-color: #b91c1c;
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+}
+
+.beta-btn.primary:active {
+    background-color:rgb(110, 3, 3); /* Đổi màu khi click */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .beta-products-list .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .col-sm-2 {
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+    }
+
+    #product-filter {
+        width: 80%;
+    }
+}
+.single-item-header img {
+    width: 100%;              /* Làm cho hình ảnh chiếm hết chiều rộng của phần chứa */
+    height: 200px;            /* Đảm bảo chiều cao đồng nhất */
+    object-fit: cover;        /* Cắt ảnh để không bị méo */
+    object-position: center;  /* Đảm bảo hình ảnh luôn được canh giữa */
+    transition: transform 0.3s ease-in-out;
+}
+
+.single-item-header img:hover {
+    transform: scale(1.05);   /* Tạo hiệu ứng phóng to khi hover */
+}
+.filter-container {
+    display: inline-block; /* Để hai dropdown nằm ngang */
+    margin-right: 10px; /* Khoảng cách giữa các dropdown */
+}
+
+.filter-select {
+    width: 200px; /* Đặt chiều rộng cố định cho các dropdown */
+    padding: 5px 10px; /* Thêm padding để tạo khoảng trống */
+    font-size: 14px; /* Kích thước font */
+    border-radius: 5px; /* Bo tròn các góc */
+    border: 1px solid #ccc; /* Viền xung quanh */
+    appearance: none; /* Loại bỏ kiểu mặc định của trình duyệt */
+    background-color: #f9f9f9; /* Màu nền nhẹ */
+    cursor: pointer; /* Thêm con trỏ khi hover */
+}
+
+.filter-select:focus {
+    outline: none; /* Loại bỏ viền khi focus */
+    border-color: #007bff; /* Thêm màu viền khi focus */
+    background-color: #ffffff; /* Thay đổi màu nền khi focus */
+}
+</style>
+
+<div class="beta-products-list">
+    <div class="beta-products-details">
+        <form action="{{ route('banhang.sanpham') }}" method="get">
+            <div class="filter-container">
+                <!-- Bộ lọc sản phẩm -->
+                <select id="product-filter" name="filter" onchange="this.form.submit()" class="filter-select">
+                    <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>Tất cả sản phẩm</option>
+                    <option value="new" {{ $filter == 'new' ? 'selected' : '' }}>Sản phẩm mới</option>
+                    <option value="top" {{ $filter == 'top' ? 'selected' : '' }}>Sản phẩm nổi bật</option>
+                    <option value="discount" {{ $filter == 'discount' ? 'selected' : '' }}>Sản phẩm giảm giá</option>
+                    <option value="no_discount" {{ $filter == 'no_discount' ? 'selected' : '' }}>Sản phẩm không giảm giá</option>
+                </select>
+            </div>
+
+            <div class="filter-container">
+                <!-- Bộ lọc loại sản phẩm -->
+                <select id="product-filter" name="type" onchange="this.form.submit()" class="filter-select">
+                    <option value="all" {{ $type == 'all' ? 'selected' : '' }}>Tất cả loại sản phẩm</option>
+                    @foreach($types as $typeProduct)
+                        <option value="{{ $typeProduct->id }}" {{ $type == $typeProduct->id ? 'selected' : '' }}>
+                            {{ $typeProduct->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        @php
+            $stt = 0;
+        @endphp
+        @foreach($new_products as $new_product)
+            @php $stt++; @endphp
+            <div class="col-sm-2" style="margin-right: -40px; margin-bottom: 20px; padding: 20px;">
+                <div class="single-item">
+                    @if($new_product->promotion_price != 0)
+                        <div class="ribbon-wrapper"><div class="ribbon sale">Sale</div></div>
+                    @endif
+                    <div class="single-item-header">
+                        <a href="{{ route('banhang.chitiet', $new_product->id) }}">
+                            <img src="{{ asset('source/image/product/'.$new_product->image) }}" alt="" height="250px">
+                        </a>
+                    </div>
+                    <div class="single-item-body">
+                        <p class="single-item-title">{{ $new_product->name }}</p>
+                        <p class="single-item-price" style="font-size: 15px; font-weight: bold;">
+                            @if($new_product->promotion_price == 0)
+                                <span class="flash-sale">{{ number_format($new_product->unit_price) }}đ</span>
+                            @else
+                                <span class="flash-del">{{ number_format($new_product->unit_price) }}đ</span>
+                                <span class="flash-sale">{{ number_format($new_product->promotion_price) }}đ</span>
+                            @endif
+                        </p>
+                    </div>
+                    <div class="single-item-caption">
+                        @if(Auth::check())
+                            <a class="add-to-cart pull-left" href="{{ route('banhang.addtocart', $new_product->id) }}">
+                                <i class="fa fa-shopping-cart"></i>
+                            </a>
+                        @else
+                            <a class="add-to-cart pull-left" href="{{ route('banhang.addtocart', $new_product->id) }}" onclick="chuaDangNhap(event)">
+                                <i class="fa fa-shopping-cart"></i>
+                            </a>
+                        @endif
+                        <a class="beta-btn primary" href="{{ route('banhang.chitiet', $new_product->id) }}">
+                            Chi tiết <i class="fa fa-chevron-right"></i>
+                        </a>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <script>
+                        function chuaDangNhap(e) {
+                            e.preventDefault(); // Chặn truy cập
+                            alert("Vui lòng đăng nhập để sử dụng chức năng này.");
+                            location.reload(); // Reload trang
+                        }
+                    </script>
+                </div>
+            </div>
+            @if($stt % 4 == 0)
+                <div class="space40">&nbsp;</div>
+            @endif
+        @endforeach
+    </div>
+</div>
 @endsection

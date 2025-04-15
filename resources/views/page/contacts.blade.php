@@ -36,10 +36,10 @@
 					<form action="{{ route('contact.submit') }}" method="POST" class="contact-form">
 						@csrf
 						<div class="form-block">
-							<input name="name" type="text" placeholder="Your Name (required)" required>
+							<input name="name" type="text" placeholder="Your Name (required)" value="{{ Auth::check() ? Auth::user()->full_name : '' }}" required {{ Auth::check() ? 'readonly' : '' }}>
 						</div>
 						<div class="form-block">
-							<input name="email" type="email" placeholder="Your Email (required)" required>
+							<input name="email" type="email" placeholder="Your Email (required)" value="{{ Auth::check() ? Auth::user()->email : '' }}" required {{ Auth::check() ? 'readonly' : '' }}>
 						</div>
 						<div class="form-block">
 							<input name="subject" type="text" placeholder="Subject">
@@ -75,6 +75,12 @@
 					tham gia vào nhóm của chúng tôi.
 						<!-- <a href="hr@betadesign.com">hr@betadesign.com</a> -->
 					</p>
+					<br>
+					@if(session('success'))
+						<div class="alert alert-success">
+							{{ session('success') }}
+						</div>
+					@endif
 				</div>
 			</div>
 		</div> <!-- #content -->

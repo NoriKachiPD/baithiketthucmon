@@ -7,6 +7,7 @@ use App\Mail\ContactReplyMail;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
@@ -32,6 +33,8 @@ class ContactController extends Controller
     public function index()
     {
         $contacts = Contact::oldest()->get();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
         return view('admin.contact.contact-list', compact('contacts'));
     }
 

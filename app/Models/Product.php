@@ -26,4 +26,8 @@ class Product extends Model
         'promotion_price' => 'float',
         'top' => 'boolean', // Nếu cột top chỉ là true/false, nên thêm cái này
     ];
+    public function typeProduct()
+    {
+        return $this->belongsTo(TypeProduct::class, 'id_type', 'id');
+    }
 }

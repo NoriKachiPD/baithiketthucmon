@@ -27,6 +27,7 @@ use App\Mail\OrderCancelledMail;
 
 use App\Mail\OrderConfirmationMail;  // Import class đúng
 
+use App\Models\TypeProduct;
 
 class PageController extends Controller
 {
@@ -69,55 +70,109 @@ class PageController extends Controller
     //     return view('page.index', compact('slides', 'new_products', 'top_products', 'masterLayout'));
     // }
 
-    public function getIndex(Request $request)
-    {
-        $filter = $request->input('filter', 'all');
-        $keyword = $request->input('keyword');
-    
-        $slides = Slide::all();
-    
-        // Base query
-        $query = Product::query();
-    
-        // Nếu có từ khóa tìm kiếm
-        if ($keyword) {
-            $query->where('name', 'like', '%' . $keyword . '%');
-        } else {
-            if ($filter == 'discount') {
-                $query->where('promotion_price', '>', 0);
-            } elseif ($filter == 'no_discount') {
-                $query->where('promotion_price', 0);
-            }
-        }
-    
-        $new_products = $query->get();
-        $top_products = Product::whereIn('top', [1, 0])->get();
-    
-        if (Auth::check()) {
-            $user = Auth::user();
-            $masterLayout = ($user->level == 1) ? 'admin.master' : 'page.master';
-        } else {
-            $masterLayout = 'page.master';
-        }
-    
-        return view('page.index', compact('slides', 'new_products', 'top_products', 'masterLayout', 'filter', 'keyword'));
-    }
-    
-    
-    public function getChiTiet($sanpham_id){
-        $sanpham=Product::find($sanpham_id);
-        return view('page.chitiet',compact('sanpham'));
+public function getIndex()
+{
+    $slide = Slide::all();
+
+    // Kiểm tra đăng nhập để gán layout
+    if (Auth::check()) {
+        $user = Auth::user();
+        $masterLayout = ($user->level == 1) ? 'admin.master' : 'page.master';
+    } else {
+        $masterLayout = 'page.master';
     }
 
-    public function addToCart(Request $request,$id){
-        $product=Product::find($id);
-        $oldCart=Session('cart')?Session::get('cart'):null;
-        $cart=new Cart($oldCart);
-        $cart->add($product,$id);
-        $request->session()->put('cart',$cart);
-        return redirect()->back();
-     }
+    return view('page.index', compact('slide',  'masterLayout'));
+}
 
+    
+public function getSanPham(Request $request)
+{
+    $filter = $request->input('filter', 'all');
+    $type = $request->input('type', 'all');
+    $keyword = $request->input('keyword');  // Tìm kiếm theo từ khóa, nếu có
+
+    $slides = Slide::all();
+    $types = TypeProduct::all();  // Lấy tất cả các loại sản phẩm
+
+    // Lọc danh sách sản phẩm theo điều kiện
+    $query = Product::query();
+
+    // Lọc theo từ khóa
+    if ($keyword) {
+        $query->where('name', 'like', '%' . $keyword . '%');
+    }
+
+    // Lọc theo filter (sản phẩm mới, top, giảm giá, không giảm giá)
+    if ($filter !== 'all') {
+        if ($filter === 'discount') {
+            $query->where('promotion_price', '>', 0);
+        } elseif ($filter === 'no_discount') {
+            $query->where('promotion_price', 0);
+        } elseif ($filter === 'new') {
+            $query->where('new', 1);
+        } elseif ($filter === 'top') {
+            $query->where('top', 1);
+        }
+    }
+
+    // Lọc theo loại sản phẩm
+    if ($type !== 'all') {
+        $query->where('id_type', $type);
+    }
+
+    // Lấy danh sách sản phẩm sau khi đã lọc
+    $new_products = $query->get();  // Lấy danh sách sản phẩm theo các điều kiện
+
+    // Truyền dữ liệu vào view
+    return view('page.product', compact(
+        'slides',
+        'new_products',
+        'types',
+        'filter',
+        'type',
+        'keyword'
+    ));
+}
+
+    
+public function getChiTiet($sanpham_id)
+{
+    // Lấy sản phẩm và thông tin loại sản phẩm liên quan
+    $sanpham = Product::with('typeProduct')->find($sanpham_id);
+    
+    // Kiểm tra nếu không tìm thấy sản phẩm
+    if (!$sanpham) {
+        return redirect()->route('404'); // Hoặc route bạn muốn chuyển hướng khi không tìm thấy sản phẩm
+    }
+
+    return view('page.chitiet', compact('sanpham'));
+}
+
+    public function addToCart(Request $request, $id) {
+        $product = Product::find($id);
+    
+        // Kiểm tra xem sản phẩm có tồn tại không
+        if (!$product) {
+            return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+        }
+    
+        // Lấy giỏ hàng cũ nếu có, nếu không thì khởi tạo giỏ hàng mới
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+    
+        // Lấy số lượng từ input (mặc định là 1 nếu không có)
+        $quantity = $request->input('quantity', 1);
+    
+        // Thêm hoặc cập nhật sản phẩm vào giỏ hàng
+        $cart->add($product, $id, $quantity);
+    
+        // Lưu giỏ hàng vào session
+        $request->session()->put('cart', $cart);
+    
+        return redirect()->back()->with('success', 'Đã thêm sản phẩm vào giỏ hàng');
+    }
+    
      public function delCartItem($id){
         $oldCart=Session::has('cart')?Session::get('cart'):null;
         $cart=new Cart($oldCart);
@@ -130,12 +185,28 @@ class PageController extends Controller
 
     public function tangSoLuong(Request $request, $id) {
         $product = Product::find($id);
-        $oldCart = Session('cart') ? Session::get('cart') : null;
+    
+        // Kiểm tra nếu sản phẩm không tồn tại
+        if (!$product) {
+            return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+        }
+    
+        // Lấy giỏ hàng cũ nếu có, nếu không thì khởi tạo giỏ hàng mới
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
-        $cart->add($product, $id);
+    
+        // Lấy số lượng từ request, nếu không có thì mặc định là 1
+        $quantity = $request->input('quantity', 1);
+    
+        // Thêm hoặc cập nhật sản phẩm vào giỏ hàng
+        $cart->add($product, $id, $quantity);
+    
+        // Lưu giỏ hàng vào session
         $request->session()->put('cart', $cart);
+    
+        // Chuyển hướng lại trang cũ
         return redirect()->back();
-    }
+    }    
     
     public function giamSoLuong(Request $request, $id) {
         $oldCart = Session('cart') ? Session::get('cart') : null;
@@ -155,23 +226,24 @@ class PageController extends Controller
     public function getCheckout()
     {
         if (!Session::has('cart')) {
-            // Nếu không có giỏ hàng, trả về view với giỏ hàng trống
             return view('page.checkout', [
                 'productCarts' => [],
                 'cart' => null,
-                'totalPrice' => 0
+                'totalPrice' => 0,
+                'user' => Auth::user()
             ]);
         }
-
+    
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
-
+    
         return view('page.checkout', [
             'productCarts' => $cart->items,
-            'cart' => $cart, // Thêm dòng này để truyền biến $cart sang view
-            'totalPrice' => $cart->totalPrice
+            'cart' => $cart,
+            'totalPrice' => $cart->totalPrice,
+            'user' => Auth::user()
         ]);
-    }
+    }    
 
     public function postCheckout(Request $request)
     {
@@ -403,13 +475,17 @@ public function postLogin(Request $req){
     }
     public function trackOrder(Request $request)
     {
+        // Nếu chưa đăng nhập thì không truy vấn gì cả
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để tra cứu đơn hàng.');
+            return view('orders.track', [
+                'orders' => null,
+                'search' => null
+            ]);
         }
-
+    
         $email = Auth::user()->email;
         $search = $request->input('search');
-
+    
         $orders = Order::query()
             ->where('email', $email)
             ->when($search, function ($query, $search) {
@@ -417,13 +493,12 @@ public function postLogin(Request $req){
             })
             ->orderBy('created_at', 'desc')
             ->get();
-
-        // Đảm bảo luôn truyền biến $orders và $search xuống view
+    
         return view('orders.track', [
-            'orders' => $orders ?? collect(), // ← fallback nếu cần
+            'orders' => $orders,
             'search' => $search
         ]);
-    }
+    }    
 
     private function generateOrderCode()
     {

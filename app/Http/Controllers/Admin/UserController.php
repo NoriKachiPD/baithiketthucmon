@@ -31,24 +31,37 @@ class UserController extends Controller
             'phone' => 'required',
             'address' => 'nullable',
             'password' => 'required|min:6',
-            'Image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Sử dụng tên 'image' ở đây
+            'level' => 'required|in:1,3',
+            'id' => 'nullable|integer|exists:users,id', // Chỉ kiểm tra khi level là 1
         ]);
-
-        $data = $request->only(['full_name', 'email', 'phone', 'address']);
-        $data['level'] = 3;
-        $data['password'] = Hash::make($request->password);
-
-        if ($request->hasFile('Image')) {
-            $file = $request->file('Image');
-            $filename = $file->getClientOriginalName();
-            $file->move(public_path('images/'), $filename);
-            $data['Image'] = $filename;
+    
+        $data = $request->only(['full_name', 'email', 'phone', 'address', 'level']);
+    
+        // Nếu level là 1 (Admin), thêm ID vào data
+        if ($request->level == 1) {
+            $data['id'] = $request->id;
         }
-
+    
+        // Mã hóa mật khẩu
+        $data['password'] = Hash::make($request->password);
+    
+        // Kiểm tra nếu có ảnh
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '-' . $file->getClientOriginalName();
+            $file->move(public_path('images/'), $filename);
+            $data['Image'] = $filename; // Gán vào cột 'Image'
+        } else {
+            // Gán ảnh mặc định khi không có ảnh
+            $data['Image'] = 'user.png';
+        }
+    
+        // Tạo mới người dùng
         User::create($data);
-
+    
         return redirect()->route('admin.user.list')->with('success', 'Thêm khách hàng thành công!');
-    }
+    }     
 
     public function edit($id)
     {
@@ -59,19 +72,23 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-    
+        
         $request->validate([
             'full_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             'phone' => 'required',
             'Image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'password' => 'nullable|min:6', // ✅ validate mật khẩu nếu có nhập
+            'level' => 'required|in:1,3', // thêm điều kiện cho level
         ]);
-
+    
+        // Update thông tin người dùng
         $user->full_name = $request->full_name;
+        
+        // Thêm 'level' vào data
+        $data = $request->only(['full_name', 'email', 'phone', 'address', 'level']); // Lấy thêm 'level'
     
-        $data = $request->only(['full_name', 'email', 'phone', 'address']);
-    
+        // Xử lý ảnh đại diện
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = $file->getClientOriginalName();
@@ -81,19 +98,19 @@ class UserController extends Controller
                 unlink(public_path('images/' . $user->Image));
             }
         
-            $data['Image'] = $filename; // vẫn giữ 'Image' vì trong DB bạn dùng cột đó
+            $data['Image'] = $filename;
         }
     
-        // ✅ Nếu người dùng nhập mật khẩu mới thì cập nhật
+        // Nếu có mật khẩu mới thì cập nhật
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
     
+        // Cập nhật dữ liệu người dùng
         $user->update($data);
     
         return redirect()->route('admin.user.list')->with('success', 'Cập nhật khách hàng thành công!');
-    }
-
+    }    
     public function destroy($id)
     {
         $user = User::findOrFail($id);

@@ -27,6 +27,30 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Cấp độ tài khoản</label>
+                        <select class="form-control" name="level" id="level" required>
+                            <option value="1" {{ old('level') == 1 ? 'selected' : '' }}>Admin</option>
+                            <option value="3" {{ old('level') == 3 ? 'selected' : '' }}>Khách hàng</option>
+                        </select>
+                    </div>
+
+                    <script>
+                        document.getElementById('level').addEventListener('change', function() {
+                            const userIdGroup = document.getElementById('user-id-group');
+                            if (this.value == '1') {
+                                userIdGroup.style.display = 'block'; // Hiển thị trường ID khi chọn Admin
+                            } else {
+                                userIdGroup.style.display = 'none'; // Ẩn trường ID khi chọn Khách hàng
+                            }
+                        });
+
+                        // Kiểm tra lựa chọn ban đầu khi trang được load
+                        if (document.getElementById('level').value == '1') {
+                            document.getElementById('user-id-group').style.display = 'block';
+                        }
+                    </script>
+
+                    <div class="form-group">
                         <label>Email</label>
                         <input class="form-control" name="email" type="email" placeholder="Nhập email" required />
                     </div>

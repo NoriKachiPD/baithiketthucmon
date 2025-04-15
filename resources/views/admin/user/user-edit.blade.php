@@ -55,6 +55,14 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Cấp độ tài khoản</label>
+                        <select class="form-control" name="level" required>
+                            <option value="1" {{ $user->level == 1 ? 'selected' : '' }}>Admin</option>
+                            <option value="3" {{ $user->level == 3 ? 'selected' : '' }}>Khách hàng</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label>Mật khẩu</label>
                         <input class="form-control" type="password" name="password" />
                     </div>

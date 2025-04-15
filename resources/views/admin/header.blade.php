@@ -52,10 +52,10 @@
             <div class="pull-right beta-components space-left ov">
                 <div class="space10">&nbsp;</div>
                 <div class="beta-comp">
-                <form role="search" method="get" id="searchform" action="{{ route('home') }}">
+                <!-- <form role="search" method="get" id="searchform" action="{{ route('home') }}">
                     <input style="margin-top: 16px;" type="text" value="{{ request('keyword') }}" name="keyword" id="s" placeholder="Nhập từ khóa..." />
                     <button class="fa fa-search" type="submit" id="searchsubmit" style="margin-top: 16px;"></button>
-                </form>
+                </form> -->
                 </div>
  
 <!--                <div class="beta-comp">
@@ -132,15 +132,15 @@
             <nav class="main-menu">
                 <ul class="l-inline ov">
                     <li><a href="{{ route('banhang.index') }}">Trang chủ</a></li>
-                    <li><a href="#">Sản phẩm</a>
+                    <!-- <li><a href="#">Sản phẩm</a>
                         <ul class="sub-menu">
                             <li><a href="product_type.html">Nothing Here</a></li>
                             <li><a href="product_type.html">NOTHING HERE!!</a></li>
                             <li><a href="product_type.html">GO AWAY!!!!!</a></li>
                         </ul>
                     </li>
-                    <li><a href="about.html">Giới thiệu</a></li>
-                    <li><a href="{{ route('contacts') }}">Liên hệ</a></li>
+                    <li><a href="about.html">Giới thiệu</a></li> -->
+                    <!-- <li><a href="{{ route('contacts') }}">Liên hệ</a></li> -->
                     </ul>
                 <div class="clearfix"></div>
             </nav>

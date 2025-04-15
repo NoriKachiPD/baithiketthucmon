@@ -22,7 +22,7 @@
 
                         <div class="form-block">
                             <label for="name">Họ tên*</label>
-                            <input type="text" id="name" placeholder="Họ tên" name="name" required>
+                            <input type="text" id="name" placeholder="Họ tên" name="name" required value="{{ isset($user) ? $user->full_name : '' }}">
                         </div>
                         <div class="form-block">
                             <label>Giới tính</label>
@@ -31,17 +31,17 @@
                         </div>
                         <div class="form-block">
                             <label for="email">Email*</label>
-                            <input type="email" id="email" required placeholder="expample@gmail.com" name="email">
+                            <input type="email" id="email" required placeholder="expample@gmail.com" name="email" value="{{ isset($user) ? $user->email : '' }}">
                         </div>
 
                         <div class="form-block">
                             <label for="adress">Địa chỉ*</label>
-                            <input type="text" id="adress" placeholder="Address" name="address" required>
+                            <input type="text" id="adress" placeholder="Address" name="address" required value="{{ isset($user) ? $user->address : '' }}">
                         </div>
 
                         <div class="form-block">
                             <label for="phone">Điện thoại*</label>
-                            <input type="text" id="phone" name="phone_number" required>
+                            <input type="text" id="phone" name="phone_number" required value="{{ isset($user) ? $user->phone : '' }}">
                         </div>
 
                         <div class="form-block">
@@ -110,19 +110,101 @@
 
                             <div class="your-order-body" style="margin-top: 20px;">
                                 <ul class="payment_methods methods">
-                                    <li class="payment_method_bacs">
-                                        <input id="payment_method_bacs" type="radio" class="input-radio" name="payment_method" value="COD" checked="checked" data-order_button_text="">
-                                        <label for="payment_method_bacs">Thanh toán khi nhận hàng </label>
+                                    <li class="payment_method_cash">
+                                        <input id="payment_method_cash" type="radio" class="input-radio" name="payment_method" value="Tiền Mặt" checked="checked" data-order_button_text="">
+                                        <label for="payment_method_cash">Thanh toán khi nhận hàng </label>
                                     </li>
 
                                     <li class="payment_method_cheque">
-                                        <input id="payment_method_cheque" type="radio" class="input-radio" name="payment_method" value="ATM" data-order_button_text="">
-                                        <label for="payment_method_cheque">Chuyển khoản </label>
-                                    </li>
+                                    <li class="payment_method_cheque">
+    <input id="payment_method_cheque" type="radio" class="input-radio" name="payment_method" value="Chuyển Khoản" data-order_button_text="">
+    <label for="payment_method_cheque">Chuyển khoản</label>
 
-                                    <li class="payment_method_cheque"><input id="payment_method_cheque" type="radio" class="input-radio" name="payment_method" value="VNPAY" data-order_button_text="">
+    <!-- Thông tin tài khoản ngân hàng -->
+    <div id="bank-info" style="display: none; margin-top: 20px; opacity: 0; transition: opacity 0.5s ease-in-out;">
+        <h3>Thông tin tài khoản ngân hàng</h3>
+        
+        <!-- Bảng thông tin ngân hàng -->
+        <table class="table table-bordered" style="width: 100%; margin-top: 20px; border-radius: 10px; background: linear-gradient(135deg, #6e7dff, #00d2ff); color: white;">
+            <thead>
+                <tr>
+                    <th colspan="2" class="text-center" style="background: linear-gradient(to right, #667eea, #764ba2);">Thông tin chuyển khoản</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Tên chủ tài khoản:</strong></td>
+                    <td style="color: gray; font-weight: 900">CHAU DUC PHAT</td>
+                </tr>
+                <tr>
+                    <td><strong>Ngân hàng:</strong></td>
+                    <td style="color: gray; font-weight: 900">Vietcombank</td>
+                </tr>
+                <tr>
+                    <td><strong>Số tài khoản:</strong></td>
+                    <td style="color: gray; font-weight: 900">1031389206</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Mã QR chuyển khoản -->
+        <div class="text-center" style="margin-top: 20px;">
+            <h4>Mã QR chuyển khoản</h4>
+            <img src="{{ asset('images/qr2.jpg') }}" alt="QR Code chuyển khoản" width="200" height="200">
+        </div>
+    </div>
+</li>
+
+<script>
+    // Lắng nghe sự thay đổi của phương thức thanh toán
+    document.getElementById('payment_method_cheque').addEventListener('change', function () {
+        if (this.checked) {
+            document.getElementById('bank-info').style.display = 'block'; // Hiển thị thông tin chuyển khoản
+            setTimeout(function() {
+                document.getElementById('bank-info').style.opacity = '1'; // Thêm animation fade-in
+            }, 50); // Thêm delay nhẹ để animation hoạt động
+        }
+    });
+
+    document.getElementById('payment_method_cash').addEventListener('change', function () {
+        if (this.checked) {
+            document.getElementById('bank-info').style.opacity = '0'; // Ẩn thông tin chuyển khoản
+            setTimeout(function() {
+                document.getElementById('bank-info').style.display = 'none'; // Ẩn hoàn toàn sau khi animation xong
+            }, 500); // Thời gian khớp với animation fade-out
+        }
+    });
+</script>
+
+<style>
+    #bank-info table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#bank-info table th, #bank-info table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+#bank-info table th {
+    background-color: #f2f2f2;
+}
+
+#bank-info table td {
+    background-color: #ffffff;
+}
+
+#bank-info img {
+    max-width: 100%;
+    height: auto;
+}
+</style>
+
+                                    <!-- <li class="payment_method_cheque"><input id="payment_method_cheque" type="radio" class="input-radio" name="payment_method" value="VNPAY" data-order_button_text="">
                                         <label for="payment_method_cheque">Thanh toán online</label>
-                                    </li>                                                                       
+                                    </li>                                                                        -->
                                 </ul>
                             </div>
 

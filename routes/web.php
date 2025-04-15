@@ -4,17 +4,27 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\AdminLoginMiddleware;
-
 use App\Http\Controllers\ContactController;
-
 use App\Http\Controllers\Admin\UserController;
 // use App\Http\Middleware\AdminOnlyMiddleware;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ChangePasswordController;
+use App\Http\Middleware\MustLogin;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware([MustLogin::class])->group(function () {
+    Route::get('/checkout', [PageController::class, 'getCheckout'])->name('banhang.getdathang');
+    Route::get('/profile', [PageController::class, 'getProfile'])->name('profile');
+    Route::post('/profile', [PageController::class, 'postProfile'])->name('profile.update');
+        // Hiển thị form đặt hàng
+    Route::get('dathang', [PageController::class, 'getDatHang'])->name('banhang.dathang');
+
+    // Xử lý khi submit form đặt hàng
+    Route::post('dathang', [PageController::class, 'postDatHang'])->name('banhang.postdathang');
 });
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Hiển thị form đổi mật khẩu
 Route::get('/password/change', [UserController::class, 'showChangePasswordForm'])->name('password.change.form');
@@ -28,16 +38,15 @@ Route::get('/password/verify', [UserController::class, 'showVerifyForm'])->name(
 // Xác nhận mã và đổi mật khẩu
 Route::post('/password/verify', [UserController::class, 'verifyCodeAndUpdatePassword'])->name('password.verify.submit');
 
-
 // // Hiển thị form xác minh mã
 // Route::get('/verify-code', [ChangePasswordController::class, 'showVerifyForm'])->name('verify.code.form');
 
 // // Xử lý xác minh mã
 // Route::post('/verify-code', [ChangePasswordController::class, 'verifyCode'])->name('verify.code');
 
-
-
-
+Route::get('/about', function () {
+    return view('page.about');
+})->name('about');
 
 Route::get('quen-mat-khau', [PageController::class, 'getResetPassword'])->name('getResetPassword');
 Route::post('quen-mat-khau', [PageController::class, 'postResetPassword'])->name('postResetPassword');
@@ -54,11 +63,14 @@ Route::get('/trangchu',[PageController::class,'getIndex'])->name('banhang.index'
 
 Route::get('/chitiet/{sanpham_id}',[PageController::class,'getChiTiet'])->name('banhang.chitiet');
 
+Route::get('/sanpham', [PageController::class, 'getSanPham'])->name('banhang.sanpham');
+
 Route::get('/add-to-cart/{id}',[PageController::class,'addToCart'])->name('banhang.addtocart');
+Route::post('/add-to-cart/{id}', [PageController::class, 'addToCart'])->name('banhang.addtocart');
 
 Route::get('/del-cart/{id}',[PageController::class,'delCartItem'])->name('banhang.xoagiohang');
 
-Route::get('/checkout',[PageController::class,'getCheckout'])->name('banhang.getdathang');
+// Route::get('/checkout',[PageController::class,'getCheckout'])->name('banhang.getdathang');
 // Route::post('/checkout',[PageController::class,'postCheckout'])->name('banhang.postdathang');
 
 Route::get('/contacts', function () {
@@ -209,22 +221,16 @@ Route::prefix('admin')->middleware(AdminLoginMiddleware::class)->group(function 
         Route::get('/list', [PageController::class, 'orderList'])->name('admin.order.orderlist'); // giữ nguyên tên
         Route::put('/{id}', [PageController::class, 'updateOrderStatus'])->name('admin.order.update');
         Route::delete('/{id}', [PageController::class, 'deleteOrder'])->name('admin.order.delete');
+        Route::post('/admin/order-list/{id}/update', [PageController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
+        Route::put('/admin/order-list/{code}/update', [PageController::class, 'updateOrderStatus'])->name('admin.order.update');
     });    
 
 });
 
-Route::get('/profile', [PageController::class, 'getProfile'])->name('profile');
-Route::post('/profile', [PageController::class, 'postProfile'])->name('profile.update');
+// Route::get('/profile', [PageController::class, 'getProfile'])->name('profile');
+// Route::post('/profile', [PageController::class, 'postProfile'])->name('profile.update');
 
-// Hiển thị form đặt hàng
-Route::get('dathang', [PageController::class, 'getDatHang'])->name('banhang.dathang');
-
-// Xử lý khi submit form đặt hàng
-Route::post('dathang', [PageController::class, 'postDatHang'])->name('banhang.postdathang');
 
 // Tra cứu đơn hàng
 Route::get('/orders/track', [App\Http\Controllers\PageController::class, 'trackOrder'])->name('track');
 
-Route::post('/admin/order-list/{id}/update', [PageController::class, 'updateOrderStatus'])->name('admin.updateOrderStatus');
-
-Route::put('/admin/order-list/{code}/update', [PageController::class, 'updateOrderStatus'])->name('admin.order.update');

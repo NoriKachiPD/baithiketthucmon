@@ -19,29 +19,35 @@ class Cart extends Model
         }
     }
 
-    public function add($item, $id)
+    public function add($item, $id, $quantity)
     {
         // Xác định giá sử dụng (ưu tiên promotion_price nếu có)
         $price = $item->promotion_price > 0 ? $item->promotion_price : $item->unit_price;
         
-        $storedItem = [
-            'qty' => 0, 
-            'price' => $price, // Giá đơn vị
-            'item' => $item,
-            'totalPrice' => 0 // Tổng giá cho sản phẩm này
-        ];
-
+        // Kiểm tra xem sản phẩm đã có trong giỏ hay chưa
         if ($this->items && array_key_exists($id, $this->items)) {
+            // Nếu có rồi, chỉ cần cộng thêm số lượng
             $storedItem = $this->items[$id];
+            $storedItem['qty'] += $quantity; // Cộng số lượng
+            $storedItem['totalPrice'] = $storedItem['qty'] * $price; // Cập nhật tổng giá
+            
+            $this->items[$id] = $storedItem; // Cập nhật giỏ hàng
+        } else {
+            // Nếu chưa có, thêm sản phẩm mới vào giỏ hàng
+            $storedItem = [
+                'qty' => $quantity, // Số lượng người dùng chọn
+                'price' => $price, // Giá đơn vị
+                'item' => $item,
+                'totalPrice' => $price * $quantity // Tổng giá cho sản phẩm này
+            ];
+    
+            $this->items[$id] = $storedItem; // Thêm sản phẩm vào giỏ
         }
-
-        $storedItem['qty']++;
-        $storedItem['totalPrice'] = $price * $storedItem['qty'];
-        $this->items[$id] = $storedItem;
         
-        $this->totalQty++;
-        $this->totalPrice += $price; // Cộng dồn giá đơn vị
-    }
+        // Cập nhật tổng số lượng và tổng giá giỏ hàng
+        $this->totalQty += $quantity;
+        $this->totalPrice += $price * $quantity;
+    }    
 
     public function reduceByOne($id)
     {

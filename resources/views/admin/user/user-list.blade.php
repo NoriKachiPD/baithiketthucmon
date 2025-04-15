@@ -40,6 +40,7 @@
                         <th>Phone</th>
                         <th>Địa chỉ</th>
                         <th><strong>Mật khẩu</strong></th> <!-- ✅ thêm dòng này -->
+                        <th>Cấp độ</th> <!-- ✅ thêm dòng này -->
                         <th>Sửa</th>
                         <th>Xóa</th>
                     </tr>
@@ -60,6 +61,15 @@
                                 <td>{{ $u->phone }}</td>
                                 <td>{{ $u->address }}</td>
                                 <td>{{ $u->password }}</td> <!-- ✅ thêm dòng này -->
+                                <td>
+                                    @if($u->level == 1)
+                                        Admin
+                                    @elseif($u->level == 3)
+                                        Khách hàng
+                                    @else
+                                        Không xác định
+                                    @endif
+                                </td>
                                 <td class="center">
                                     <a href="{{ route('admin.user.edit', $u->id) }}" class="btn btn-warning btn-sm">
                                         <i class="fa fa-pencil fa-fw"></i> Sửa
