@@ -88,7 +88,7 @@
             <h1 class="auth-message">
                 <span class="emoji">🛑</span>
                 <span class="emoji">🛒</span>
-                <span class="text-gradient">Vui lòng đăng nhập để xem giỏ hàng</span>
+                <span class="text-gradient">Vui lòng đăng nhập để xem đơn hàng</span>
                 <span class="emoji">🔐</span>
             </h1>
         </div>
