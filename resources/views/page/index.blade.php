@@ -140,10 +140,10 @@
         <h2 class="section-title">Về Tiệm Bánh Của Sự Ngọt Ngào</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-                <p class="text-lg text-gray-700 leading-relaxed">
+                <p class="text-lg text-black-900 leading-relaxed">
                     Chào mừng bạn đến với tiệm bánh của chúng tôi, nơi mỗi chiếc bánh là một câu chuyện ngọt ngào được tạo nên từ tình yêu và đam mê. Với hơn một thập kỷ mang niềm vui qua từng món bánh, chúng tôi tự hào mang đến những trải nghiệm vị giác tuyệt vời cho mọi khách hàng.
                 </p>
-                <p class="text-lg text-gray-700 leading-relaxed mt-4">
+                <p class="text-lg text-black-900 leading-relaxed mt-4">
                     Tại đây, chúng tôi sử dụng nguyên liệu tươi ngon nhất, kết hợp với bí quyết thủ công để tạo ra những chiếc bánh không chỉ đẹp mắt mà còn đậm đà hương vị. Hãy ghé thăm để cùng chúng tôi lan tỏa niềm hạnh phúc qua từng miếng bánh!
                 </p>
                 <a href="{{ route('about') }}" class="cta-button mt-6">Khám Phá Thêm</a>
@@ -246,7 +246,7 @@
         filter: none !important;
         background: none !important;
         z-index: 99 !important;
-        color: black;
+        color: gray;
     }
 </style>
 
@@ -295,7 +295,7 @@
                 <div class="swiper-slide">
                     <div class="testimonial-card mx-auto max-w-lg text-center">
                         <p class="text-gray-700 italic">"Mình đặt bánh cưới ở đây, thiết kế đẹp lung linh và vị thì không chê vào đâu được!"</p>
-                        <p class="mt-4 font-semibold">Trần Văn Hùng</p>
+                        <p class="mt-4 font-semibold">Trần Văn Minh</p>
                         <p class="text-gray-500">Khách hàng sự kiện</p>
                     </div>
                 </div>

@@ -260,8 +260,8 @@
                         <div class="md:w-7/12">
                             <h5 class="other-title">Khai Sinh</h5>
                             <p>
-                                123 Đường Bánh Ngọt, Phường 7,<br />
-                                Quận 3, TP. Hồ Chí Minh<br />
+                                99 Tô Hiến Thành, Phước Mỹ,<br />
+                                Sơn Trà, Đà Nẵng 550000<br />
                                 Việt Nam
                             </p>
                             <div class="my-4"></div>
@@ -277,8 +277,8 @@
                         <div class="md:w-7/12">
                             <h5 class="other-title">Mở Rộng</h5>
                             <p>
-                                123 Đường Bánh Ngọt, Phường 7,<br />
-                                Quận 3, TP. Hồ Chí Minh<br />
+                                99 Tô Hiến Thành, Phước Mỹ,<br />
+                                Sơn Trà, Đà Nẵng 550000<br />
                                 Việt Nam
                             </p>
                             <div class="my-4"></div>
@@ -294,8 +294,8 @@
                         <div class="md:w-7/12">
                             <h5 class="other-title">Đổi Mới</h5>
                             <p>
-                                123 Đường Bánh Ngọt, Phường 7,<br />
-                                Quận 3, TP. Hồ Chí Minh<br />
+                                99 Tô Hiến Thành, Phước Mỹ,<br />
+                                Sơn Trà, Đà Nẵng 550000<br />
                                 Việt Nam
                             </p>
                             <div class="my-4"></div>
@@ -311,8 +311,8 @@
                         <div class="md:w-7/12">
                             <h5 class="other-title">Giao Hàng</h5>
                             <p>
-                                123 Đường Bánh Ngọt, Phường 7,<br />
-                                Quận 3, TP. Hồ Chí Minh<br />
+                             99 Tô Hiến Thành, Phước Mỹ,<br />
+                                Sơn Trà, Đà Nẵng 550000<br />
                                 Việt Nam
                             </p>
                             <div class="my-4"></div>
@@ -328,8 +328,8 @@
                         <div class="md:w-7/12">
                             <h5 class="other-title">Đội Ngũ</h5>
                             <p>
-                                123 Đường Bánh Ngọt, Phường 7,<br />
-                                Quận 3, TP. Hồ Chí Minh<br />
+                                99 Tô Hiến Thành, Phước Mỹ,<br />
+                                Sơn Trà, Đà Nẵng 550000<br />
                                 Việt Nam
                             </p>
                             <div class="my-4"></div>
@@ -345,8 +345,8 @@
                         <div class="md:w-7/12">
                             <h5 class="other-title">Cộng Đồng</h5>
                             <p>
-                                123 Đường Bánh Ngọt, Phường 7,<br />
-                                Quận 3, TP. Hồ Chí Minh<br />
+                             99 Tô Hiến Thành, Phước Mỹ,<br />
+                                Sơn Trà, Đà Nẵng 550000<br />
                                 Việt Nam
                             </p>
                             <div class="my-4"></div>
@@ -362,8 +362,8 @@
                         <div class="md:w-7/12">
                             <h5 class="other-title">Thành Công</h5>
                             <p>
-                                123 Đường Bánh Ngọt, Phường 7,<br />
-                                Quận 3, TP. Hồ Chí Minh<br />
+                             99 Tô Hiến Thành, Phước Mỹ,<br />
+                                Sơn Trà, Đà Nẵng 550000<br />
                                 Việt Nam
                             </p>
                             <div class="my-4"></div>

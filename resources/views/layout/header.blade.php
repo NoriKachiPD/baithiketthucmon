@@ -3,8 +3,8 @@
         <div class="container">
             <div class="pull-left auto-width-left">
                 <ul class="top-menu menu-beta l-inline">
-                    <li><a href=""><i class="fa fa-home"></i> 99 Tô Hiến Thành, Phước Mỹ, Sơn Trà, Đà Nẵng 550000</a></li>
-                    <li><a href=""><i class="fa fa-phone"></i> 0935370171</a></li>
+                    <li><a href="{{ route('about') }}"><i class="fa fa-home"></i> 99 Tô Hiến Thành, Phước Mỹ, Sơn Trà, Đà Nẵng 550000</a></li>
+                    <li><a href="{{ route('contacts') }}"><i class="fa fa-phone"></i> 0935370171</a></li>
                 </ul>
             </div>
             <div class="pull-right auto-width-right">
@@ -110,7 +110,7 @@
         </div> <!-- .container -->
     </div> <!-- .header-body -->
     
-    <div class="header-bottom" style="background-color: #ef4444;">
+    <div class="header-bottom" style="background-color: #ef4444; margin-top: -20px;">
         <div class="container">
             <a class="visible-xs beta-menu-toggle pull-right" href="#"><span class='beta-menu-toggle-text'>Menu</span> <i class="fa fa-bars"></i></a>
             <div class="visible-xs clearfix"></div>
