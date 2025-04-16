@@ -112,7 +112,7 @@
 </head>
 
 <!-- Hero Slider (giữ nguyên) -->
-<div class="swiper hero-slider" style="width: 100%; height: 500px;">
+<div class="swiper hero-slider" style="width: 100%; height: 500px; margin-bottom: 10px;">
     <div class="swiper-wrapper">
         <div class="swiper-slide">
             <img src="source/assets/dest/images/thumbs/banner1.jpg" style="width:100%; height:100%; object-fit: cover;">
@@ -135,7 +135,7 @@
 </div>
 
 <!-- About Us Section -->
-<section class="py-16 bg-gray-100">
+<section class="py-16 bg-gray-100" style="margin-top: 10px;">
     <div class="container mx-auto px-4">
         <h2 class="section-title">Về Tiệm Bánh Của Sự Ngọt Ngào</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -240,6 +240,14 @@
             */
         }
     }
+    .swiper-button-next,
+    .swiper-button-prev {
+        box-shadow: none !important;
+        filter: none !important;
+        background: none !important;
+        z-index: 99 !important;
+        color: black;
+    }
 </style>
 
 <!-- Features Section -->
@@ -335,6 +343,7 @@
             autoplay: {
                 delay: 5000,
                 disableOnInteraction: false,
+                reverseDirection: true, // <- cái này sẽ bị bỏ qua nếu không có suppor
             },
             pagination: {
                 el: '.swiper-pagination',

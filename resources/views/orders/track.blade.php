@@ -94,7 +94,7 @@
         </div>
     @else
         <div class="container orders-container">
-            <h2 class="mb-4 text-center">Tra cứu đơn hàng</h2>
+            <h2 class="mb-4 text-center" style="margin-bottom: 20px;">Tra cứu đơn hàng</h2>
 
             <form method="GET" action="{{ route('track') }}" class="row g-3 justify-content-center mb-4">
                 <div class="col-md-6">
@@ -107,8 +107,11 @@
                     >
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary" style="background-color: #ef4444; height: 36px;">Tìm kiếm</button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #ef4444; height: 36px; border: none;">Tìm kiếm</button>
                 </div>
+                <a href="{{ url()->current() }}" class="btn btn-success" style="border-radius: 20px; margin-left: 20px; background-color: #ef4444; border: none;">
+                    🔄 Refresh
+                </a>
             </form>
 
             <hr>

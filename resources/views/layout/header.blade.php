@@ -154,7 +154,7 @@
         }
         /* Active menu item */
         .main-menu ul.l-inline li.active a {
-            color:  whitewhite !important; /* Đỏ đậm */
+            color: black !important; /* Đỏ đậm */
             font-weight: 700;
             background:  #b91c1c !important;
             border-radius: 0.25rem;
